@@ -14,4 +14,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    
+    Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
+    Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'removeProduct'])->name('cart.remove');
 });
