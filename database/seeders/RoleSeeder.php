@@ -17,10 +17,10 @@ class RoleSeeder extends Seeder
     {
 
 
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'moderator']);
-        Role::create(['name' => 'seller']);
-        Role::create(['name' => 'client']);
+        Role::firstOrCreate(['name' => 'admin']);
+        Role::firstOrCreate(['name' => 'moderator']);
+        Role::firstOrCreate(['name' => 'seller']);
+        Role::firstOrCreate(['name' => 'client']);
 
         $admin = User::create([
             'name' => 'System Admin',
