@@ -40,11 +40,15 @@ class Product extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class)->where('is_visible', true); // to get only visible comments
     }
 
     public function likes()
     {
         return $this->hasMany(Like::class);
     }
+    
+    public function isLikedByUser() {
+    return $this->likes()->where('user_id', auth()->id())->exists();
+}
 }
