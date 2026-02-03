@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 
@@ -18,69 +18,52 @@ class CartController extends Controller
             'user_id' => $user->id
         ]);
 
-        // load products inside cart
         $cart->load('items.product');
 
         return view('cart', compact('cart'));
     }
 
     public function addProduct(Request $request)
-{
-    $user = $request->user();
+    {
+        $user = Auth::user();
 
-    $request->validate([
-        'product_id' => 'required|exists:products,id',
-        'quantity' => 'nullable|integer|min:1'
-    ]);
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1'
+        ]);
 
-    $product = Product::findOrFail($request->product_id);
+        $product = Product::findOrFail($request->product_id);
 
-    if ($product->stock <= 0) {
-        return response()->json([
-            'message' => 'Product out of stock'
-        ], 400);
-    }
-
-    $cart = Cart::firstOrCreate([
-        'user_id' => $user->id
-    ]);
-
-    $cartItem = CartItem::where('cart_id', $cart->id)
-        ->where('product_id', $product->id)
-        ->first();
-
-    $quantity = $request->quantity ?? 1;
-
-    if ($cartItem) {
-
-        if ($cartItem->quantity + $quantity > $product->stock) {
-            return response()->json([
-                'message' => 'Quantity exceeds stock'
-            ], 400);
+        if ($request->quantity > $product->stock) {
+            return back()->with('error', 'Quantity exceeds stock');
         }
 
-        $cartItem->quantity += $quantity;
-        $cartItem->save();
-
-    } else {
-
-        CartItem::create([
-            'cart_id' => $cart->id,
-            'product_id' => $product->id,
-            'quantity' => $quantity
+        $cart = Cart::firstOrCreate([
+            'user_id' => $user->id
         ]);
-    }
 
-    return response()->json([
-        'message' => 'Product added to cart'
-    ]);
-}
+        $cartItem = $cart->items()->where('product_id', $product->id)->first();
+
+        if ($cartItem) {
+            if ($cartItem->quantity + $request->quantity > $product->stock) {
+                return back()->with('error', 'Total quantity exceeds stock');
+            }
+            $cartItem->quantity += $request->quantity;
+            $cartItem->save();
+        } else {
+            $cart->items()->create([
+                'product_id' => $product->id,
+                'quantity' => $request->quantity
+            ]);
+        }
+
+        return back()->with('success', 'Product added to cart');
+    }
 
     public function removeProduct($id)
     {
         $cartItem = CartItem::findOrFail($id);
         
-        // Ensure the cart item belongs to the authenticated user
         if ($cartItem->cart->user_id !== Auth::id()) {
             abort(403);
         }
@@ -89,5 +72,4 @@ class CartController extends Controller
         
         return redirect()->route('cart.index')->with('success', 'Product removed from cart');
     }
-
 }
