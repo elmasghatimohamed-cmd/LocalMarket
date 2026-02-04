@@ -25,25 +25,30 @@ Route::middleware([
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:client'])->group(function () {
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeProduct'])->name('cart.remove');
-    Route::get('/seller/crud', [ProductController::class, 'crud'])->name('seller.crud.crud');
+    Route::post('/product/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
+    Route::post('/product/{product}/review', [ReviewController::class, 'store'])->name('products.review');
 });
+Route::middleware(['auth', 'role:seller'])->group(function () {
+    Route::get('/seller/crud', [ProductController::class, 'crud'])->name('seller.crud.crud');
+
+});
+
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('products.show');
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('/product/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
-    Route::post('/product/{product}/review', [ReviewController::class, 'store'])->name('products.review');
+
 });
 
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     Route::get('/roles', [RoleSwitcherController::class, 'index'])->name('role_switcher');
     Route::post('/roles/{user}', [RoleSwitcherController::class, 'update'])->name('role_switcher.update');
 
