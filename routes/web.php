@@ -5,6 +5,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\RoleSwitcherController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 
@@ -40,6 +41,8 @@ Route::middleware(['auth', 'role:client'])->group(function () {
 
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
     Route::get('/roles', [RoleSwitcherController::class, 'index'])->name('role_switcher');
     Route::post('/roles/{user}', [RoleSwitcherController::class, 'update'])->name('role_switcher.update');
 
