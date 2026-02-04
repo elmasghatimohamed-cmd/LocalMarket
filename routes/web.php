@@ -32,7 +32,7 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeProduct'])->name('cart.remove');
 });
 Route::middleware(['auth', 'role:seller'])->group(function () {
-    Route::get('/seller/crud', [ProductController::class, 'crud'])->name('seller.crud.crud');
+    Route::get('/seller/crud', [ProductController::class, 'crud'])->name('seller.crud.index');
 
 });
 
