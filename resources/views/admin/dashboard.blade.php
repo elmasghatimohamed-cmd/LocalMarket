@@ -52,6 +52,8 @@
             <a href="{{ route('admin.categories.create') }}" class="btn btn-sm btn-primary">Add Category</a>
             <a href="{{ route('admin.categories.index') }}" class="btn btn-sm btn-secondary">Manage Categories</a>
             <a href="{{ route('admin.role_switcher') }}" class="btn btn-sm btn-warning">User Roles</a>
+            <button id="apply-role-changes" class="btn btn-sm btn-success" disabled style="display:none;">Apply role changes</button>
+            <div id="role-change-toast" class="ml-4 text-sm text-green-700" style="display:none;"></div>
         </div>
     </div>
 
@@ -111,15 +113,16 @@
                                 <td class="p-2">{{ $user->name }}</td>
                                 <td class="p-2">{{ $user->email }}</td>
                                 <td class="p-2">
-                                    <form method="POST" action="{{ route('admin.role_switcher.update', $user) }}" class="flex items-center gap-2">
+                                    <form method="POST" action="{{ route('admin.role_switcher.update', $user) }}" class="flex items-center gap-2 role-change-form">
                                         @csrf
-                                        <select name="role" class="border rounded px-2 py-1">
+                                        <select name="role" class="border rounded px-2 py-1 role-select">
                                             @foreach($roles as $role)
                                                 <option value="{{ $role }}" {{ $user->hasRole($role) ? 'selected' : '' }}>{{ $role }}</option>
                                             @endforeach
                                         </select>
                                         <button class="btn btn-sm btn-primary">OK</button>
                                     </form>
+                                    <div class="mt-2 role-change-status text-sm text-green-600" style="display:none;"></div>
                                     <div class="mt-2">
                                         <span class="px-3 py-1 rounded text-sm font-semibold bg-blue-100 text-blue-800">
                                             {{ $user->roles->pluck('name')->join(', ') ?: 'No role' }}
@@ -135,3 +138,100 @@
     </div>
 </div>
 @endsection
+
+@push('modals')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const applyBtn = document.getElementById('apply-role-changes');
+    const toast = document.getElementById('role-change-toast');
+    const pending = new Map();
+
+    function updateApplyButton() {
+        if (pending.size > 0) {
+            applyBtn.disabled = false;
+            applyBtn.style.display = '';
+        } else {
+            applyBtn.disabled = true;
+            applyBtn.style.display = 'none';
+        }
+    }
+
+    document.querySelectorAll('form.role-change-form').forEach(function(form) {
+        const select = form.querySelector('select.role-select');
+        const statusEl = form.parentElement.querySelector('.role-change-status');
+        const action = form.getAttribute('action');
+        const userId = action.split('/').pop();
+
+        select.addEventListener('change', function () {
+            pending.set(userId, { action, role: select.value, statusEl });
+            statusEl.style.display = 'block';
+            statusEl.textContent = 'Pending change: ' + select.value;
+            updateApplyButton();
+        });
+
+        // prevent default form submission to avoid redirect
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            // apply this single change immediately
+            pending.set(userId, { action, role: select.value, statusEl });
+            applyChanges();
+        });
+    });
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.style.display = 'inline-block';
+        setTimeout(()=>{ toast.style.display = 'none'; }, 3000);
+    }
+
+    async function applyChanges() {
+        if (pending.size === 0) return;
+        applyBtn.disabled = true;
+        let successCount = 0;
+
+        for (const [userId, info] of Array.from(pending.entries())) {
+            try {
+                const body = new URLSearchParams();
+                body.append('role', info.role);
+
+                const res = await fetch(info.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: body.toString()
+                });
+
+                if (res.ok) {
+                    const json = await res.json();
+                    // update UI
+                    info.statusEl.textContent = 'Updated to ' + info.role;
+                    const badge = info.statusEl.parentElement.querySelector('span');
+                    if (badge) badge.textContent = info.role;
+                    pending.delete(userId);
+                    successCount++;
+                } else {
+                    const text = await res.text();
+                    info.statusEl.textContent = 'Error';
+                    console.error('Error updating role:', text);
+                }
+            } catch (err) {
+                info.statusEl.textContent = 'Error';
+                console.error(err);
+            }
+        }
+
+        updateApplyButton();
+        if (successCount > 0) showToast(successCount + ' role(s) updated.');
+    }
+
+    applyBtn.addEventListener('click', function () {
+        applyChanges();
+    });
+});
+</script>
+@endpush
