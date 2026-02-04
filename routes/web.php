@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\RoleSwitcherController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use Illuminate\Support\Facades\Route;
 
 
 
@@ -29,12 +30,32 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeProduct'])->name('cart.remove');
-    Route::post('/product/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
-    Route::post('/product/{product}/review', [ReviewController::class, 'store'])->name('products.review');
 });
 Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('/seller/crud', [ProductController::class, 'crud'])->name('seller.crud.crud');
 
+});
+
+
+//seller route
+Route::middleware(['auth', 'role:seller'])->group(function () {
+    Route::get('/myproducts', [ProductController::class, 'sellerProduct'])
+        ->name('seller.products.index');
+
+    Route::get('/products/create', [ProductController::class, 'create'])
+        ->name('seller.products.create');
+
+    Route::post('/products', [ProductController::class, 'store'])
+        ->name('seller.products.store');
+
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])
+        ->name('seller.products.edit');
+
+    Route::put('/products/{product}', [ProductController::class, 'update'])
+        ->name('seller.products.update');
+
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])
+        ->name('seller.products.destroy');
 });
 
 
