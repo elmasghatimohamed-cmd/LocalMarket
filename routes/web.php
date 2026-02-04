@@ -3,8 +3,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Admin\RoleSwitcherController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
-
 
 
 
@@ -24,15 +26,20 @@ Route::middleware([
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:client'])->group(function () {
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeProduct'])->name('cart.remove');
 });
+Route::middleware(['auth', 'role:seller'])->group(function () {
+    Route::get('/seller/crud', [ProductController::class, 'crud'])->name('seller.crud.crud');
+
+});
+
 
 //seller route
 Route::middleware(['auth', 'role:seller'])->group(function () {
-    Route::get('/products', [ProductController::class, 'crud'])
+    Route::get('/myproducts', [ProductController::class, 'sellerProduct'])
         ->name('seller.products.index');
 
     Route::get('/products/create', [ProductController::class, 'create'])
@@ -56,6 +63,15 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('products.show');
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('/product/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
-    Route::post('/product/{product}/review', [ReviewController::class, 'store'])->name('products.review');
+
+});
+
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/roles', [RoleSwitcherController::class, 'index'])->name('role_switcher');
+    Route::post('/roles/{user}', [RoleSwitcherController::class, 'update'])->name('role_switcher.update');
+
+    Route::resource('categories', CategoryController::class)->except(['show']);
 });

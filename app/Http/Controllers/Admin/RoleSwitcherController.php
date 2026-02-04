@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 
 class RoleSwitcherController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth', 'role:admin']);
-    }
-
     public function index()
     {
         $users = User::with('roles')->paginate(20);

@@ -16,6 +16,7 @@ class Product extends Model
         'category_id',
         'name',
         'description',
+        'image',
         'price',
         'stock',
         'image'
@@ -50,8 +51,25 @@ class Product extends Model
     {
         return $this->hasMany(Like::class);
     }
-    
+
     public function isLikedByUser() {
     return $this->likes()->where('user_id', auth()->id())->exists();
 }
+
+
+
+
+public function getImageUrlAttribute()
+{
+
+if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+        return $this->image;
+    }
+
+    return $this->image 
+        ? asset('storage/' . $this->image) 
+        : 'https://via.placeholder.com/400';
+}
+
+
 }
