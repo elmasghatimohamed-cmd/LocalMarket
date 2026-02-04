@@ -10,8 +10,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+
+        $products = Product::with('category')->where('stock', '>', 0)->latest()->paginate(12);
         return view('products.index', compact('products'));
+
     }
 
     public function crud()
@@ -49,6 +51,11 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+
+        $product->load(['reviews' => function($query) {
+            $query->where('is_visible', true)->latest();
+        }, 'reviews.user']);
+
         return view('products.show', compact('product'));
     }
 
