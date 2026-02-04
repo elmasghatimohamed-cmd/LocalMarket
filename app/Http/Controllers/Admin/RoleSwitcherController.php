@@ -22,6 +22,14 @@ class RoleSwitcherController extends Controller
 
         $user->syncRoles([$request->input('role')]);
 
+        if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
+            return response()->json([
+                'status' => 'Rôle mis à jour.',
+                'user_id' => $user->id,
+                'role' => $request->input('role'),
+            ]);
+        }
+
         return redirect()->route('admin.role_switcher')->with('status', 'Rôle mis à jour.');
     }
 }
