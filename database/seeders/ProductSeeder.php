@@ -16,7 +16,8 @@ class ProductSeeder extends Seeder
             'price' => 999.99,
             'stock' => 10,
             'seller_id' => 1,
-            'category_id' => 1
+            'category_id' => 1,
+            'image' => 'products/laptop.jpg'
         ]);
 
         Product::create([
@@ -25,7 +26,8 @@ class ProductSeeder extends Seeder
             'price' => 599.99,
             'stock' => 25,
             'seller_id' => 1,
-            'category_id' => 1
+            'category_id' => 1,
+            'image' => 'products/phone.jpg'
         ]);
 
         Product::create([
@@ -34,7 +36,8 @@ class ProductSeeder extends Seeder
             'price' => 199.99,
             'stock' => 15,
             'seller_id' => 1,
-            'category_id' => 1
+            'category_id' => 1,
+            'image' => 'products/headphones.jpg'
         ]);
 
         Product::create([
@@ -43,7 +46,8 @@ class ProductSeeder extends Seeder
             'price' => 399.99,
             'stock' => 8,
             'seller_id' => 1,
-            'category_id' => 1
+            'category_id' => 1,
+            'image' => 'products/tablet.jpg'
         ]);
 
         Product::create([
@@ -52,7 +56,8 @@ class ProductSeeder extends Seeder
             'price' => 299.99,
             'stock' => 12,
             'seller_id' => 1,
-            'category_id' => 1
+            'category_id' => 1,
+            'image' => 'products/watch.jpg'
         ]);
     }
 }
