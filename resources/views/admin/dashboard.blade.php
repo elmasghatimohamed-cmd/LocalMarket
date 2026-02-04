@@ -107,16 +107,27 @@
                 </thead>
                 <tbody>
                     @foreach($recent_users as $user)
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="p-2">{{ $user->name }}</td>
-                            <td class="p-2">{{ $user->email }}</td>
-                            <td class="p-2">
-                                <span class="px-3 py-1 rounded text-sm font-semibold bg-blue-100 text-blue-800">
-                                    {{ $user->roles->pluck('name')->join(', ') ?: 'No role' }}
-                                </span>
-                            </td>
-                            <td class="p-2">{{ $user->created_at->format('M d, Y') }}</td>
-                        </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-2">{{ $user->name }}</td>
+                                <td class="p-2">{{ $user->email }}</td>
+                                <td class="p-2">
+                                    <form method="POST" action="{{ route('admin.role_switcher.update', $user) }}" class="flex items-center gap-2">
+                                        @csrf
+                                        <select name="role" class="border rounded px-2 py-1">
+                                            @foreach($roles as $role)
+                                                <option value="{{ $role }}" {{ $user->hasRole($role) ? 'selected' : '' }}>{{ $role }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button class="btn btn-sm btn-primary">OK</button>
+                                    </form>
+                                    <div class="mt-2">
+                                        <span class="px-3 py-1 rounded text-sm font-semibold bg-blue-100 text-blue-800">
+                                            {{ $user->roles->pluck('name')->join(', ') ?: 'No role' }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="p-2">{{ $user->created_at->format('M d, Y') }}</td>
+                            </tr>
                     @endforeach
                 </tbody>
             </table>

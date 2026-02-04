@@ -21,12 +21,17 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
+        $user = auth()->user();
+        if ($user && method_exists($user, 'hasRole') && $user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('dashboard');
     })->name('dashboard');
 });
 
 
-Route::middleware(['auth', 'role:client'])->group(function () {
+Route::middleware(['auth', 'role:client|admin'])->group(function () {
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeProduct'])->name('cart.remove');
