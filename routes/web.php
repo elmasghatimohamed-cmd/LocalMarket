@@ -17,8 +17,12 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
     
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    // Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeProduct'])->name('cart.remove');
+    Route::get('/seller/crud', [ProductController::class, 'index'])->name('seller.crud.crud');
+
 });
+
+
