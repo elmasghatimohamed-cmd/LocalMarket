@@ -8,15 +8,15 @@
                 <div class="rounded-2xl overflow-hidden mb-4 shadow-sm">
                     <img src="{{ $product->image_url }}" class="w-full h-auto object-cover aspect-square">
                 </div>
-                <div class="flex gap-4">
+                <!-- <div class="flex gap-4">
                     <div class="w-20 h-20 rounded-xl overflow-hidden border-2 border-orange-500 cursor-pointer">
                         <img src="{{ $product->image_url }}" class="w-full h-full object-cover">
                     </div>
-                    </div>
+                    </div> -->
             </div>
 
             <div class="w-full md:w-1/2">
-                <span class="text-orange-500 font-bold tracking-widest uppercase text-sm mb-4 block">LocalMart Exclusive</span>
+                <span class="text-orange-500 font-bold tracking-widest uppercase text-sm mb-4 block">LocalMarket Exclusive</span>
                 <h1 class="text-5xl font-bold text-gray-900 mb-6 leading-tight">{{ $product->name }}</h1>
                 
                 <p class="text-gray-500 text-lg mb-8 leading-relaxed">
@@ -26,9 +26,7 @@
                 <div class="mb-8">
                     <div class="flex items-center gap-4 mb-2">
                         <span class="text-3xl font-bold text-gray-900">${{ $product->price }}</span>
-                        <span class="bg-orange-100 text-orange-600 px-2 py-1 rounded-md font-bold text-sm">50% Off</span>
                     </div>
-                    <span class="text-gray-400 line-through font-medium text-lg">$250.00</span>
                     
                     <div class="mt-4 flex items-center gap-2">
                          <span class="w-3 h-3 rounded-full {{ $product->stock > 5 ? 'bg-green-500' : 'bg-red-500' }}"></span>
@@ -63,11 +61,11 @@
                 <div class="mb-6">
                     <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">Rating</label>
                     <select name="rating" class="w-full bg-white border-none rounded-xl p-3 shadow-sm text-orange-500 font-bold focus:ring-2 focus:ring-orange-500">
-                        <option value="5">⭐⭐⭐⭐⭐ Special</option>
-                        <option value="4">⭐⭐⭐⭐ Very Good</option>
-                        <option value="3">⭐⭐⭐ Good</option>
-                        <option value="2">⭐⭐ Not Bad</option>
-                        <option value="1">⭐ Bad</option>
+                        <option value="5">☆☆☆☆☆ Special</option>
+                        <option value="4">☆☆☆☆ Very Good</option>
+                        <option value="3">☆☆☆ Good</option>
+                        <option value="2">☆☆ Not Bad</option>
+                        <option value="1">☆ Bad</option>
                     </select>
                 </div>
                 <div class="mb-6">
