@@ -5,26 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
     public function index()
     {
-
-        $products = Product::with('category')->where('stock', '>', 0)->latest()->paginate(12);
+        $products = Product::with('category')->latest()->paginate(10);
+        
         return view('products.index', compact('products'));
+    }
 
+    public function sellerProduct(){
+        $products = Product::where('seller_id', Auth::id())->paginate(10);
+        return view('seller.crud.index', compact('products'));
     }
 
     public function crud()
     {
         $products = Product::where('seller_id', Auth::id())->get();
-        return view('seller.crud', compact('products'));
+        return view('seller.crud.index', compact('products'));
     }
 
     public function create()
     {
-        return view('products.create');
+        $categories = Category::all();
+        return view('seller.crud.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -35,7 +41,13 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
 
         Product::create([
             'seller_id' => Auth::id(),
@@ -44,9 +56,10 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
+            'image' => $imagePath,
         ]);
 
-        return redirect()->route('seller.crud.crud')->with('success', 'Product created');
+        return back()->with('success', 'Product created');
     }
 
     public function show(Product $product)
