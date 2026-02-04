@@ -10,8 +10,14 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::where('seller_id', Auth::id())->get();
+        $products = Product::all();
         return view('products.index', compact('products'));
+    }
+
+    public function crud()
+    {
+        $products = Product::where('seller_id', Auth::id())->get();
+        return view('seller.crud', compact('products'));
     }
 
     public function create()
@@ -38,7 +44,12 @@ class ProductController extends Controller
             'stock' => $request->stock,
         ]);
 
-        return redirect()->route('products.index')->with('success', 'Product created');
+        return redirect()->route('seller.crud.crud')->with('success', 'Product created');
+    }
+
+    public function show(Product $product)
+    {
+        return view('products.show', compact('product'));
     }
 
     public function destroy($id)

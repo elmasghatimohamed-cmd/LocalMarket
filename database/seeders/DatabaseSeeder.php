@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    
     /**
      * Seed the application's database.
      */
@@ -21,7 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             ProductSeeder::class,
-            ReviewSeeder::class,
+            RolesAndPermissionsSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
