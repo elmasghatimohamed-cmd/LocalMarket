@@ -3,6 +3,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Admin\RoleSwitcherController;
+use App\Http\Controllers\Admin\CategoryController;
 
 
 
@@ -34,4 +36,12 @@ Route::get('/product/{product}', [ProductController::class, 'show'])->name('prod
 Route::middleware(['auth', 'role:client'])->group(function () {
     Route::post('/product/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
     Route::post('/product/{product}/review', [ReviewController::class, 'store'])->name('products.review');
+});
+
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/roles', [RoleSwitcherController::class, 'index'])->name('role_switcher');
+    Route::post('/roles/{user}', [RoleSwitcherController::class, 'update'])->name('role_switcher.update');
+
+    Route::resource('categories', CategoryController::class)->except(['show']);
 });
