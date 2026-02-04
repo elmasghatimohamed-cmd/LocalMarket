@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -17,12 +18,13 @@ class ProductController extends Controller
     public function crud()
     {
         $products = Product::where('seller_id', Auth::id())->get();
-        return view('seller.crud', compact('products'));
+        return view('seller.crud.index', compact('products'));
     }
 
     public function create()
     {
-        return view('products.create');
+        $categories = Category::all();
+        return view('seller.crud.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -33,6 +35,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
         Product::create([

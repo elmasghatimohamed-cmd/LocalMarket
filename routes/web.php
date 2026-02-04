@@ -28,8 +28,29 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeProduct'])->name('cart.remove');
-    Route::get('/seller/crud', [ProductController::class, 'crud'])->name('seller.crud.crud');
 });
+
+//seller route
+Route::middleware('auth')->prefix('seller')->group(function () {
+    Route::get('/products', [ProductController::class, 'crud'])
+        ->name('seller.products.index');
+
+    Route::get('/products/create', [ProductController::class, 'create'])
+        ->name('seller.products.create');
+
+    Route::post('/products', [ProductController::class, 'store'])
+        ->name('seller.crud.store');
+
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])
+        ->name('seller.products.edit');
+
+    Route::put('/products/{product}', [ProductController::class, 'update'])
+        ->name('seller.products.update');
+
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])
+        ->name('seller.products.destroy');
+});
+
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('products.show');
