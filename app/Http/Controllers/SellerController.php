@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-class ProductController extends Controller
+use App\Models\Product;
+class SellerController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
-    }
-
-    public function crud()
-    {
         $products = Product::where('seller_id', Auth::id())->get();
-        return view('seller.crud', compact('products'));
+        return view('products.index', compact('products'));
     }
 
     public function create()
@@ -44,12 +36,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
         ]);
 
-        return redirect()->route('seller.crud.crud')->with('success', 'Product created');
-    }
-
-    public function show(Product $product)
-    {
-        return view('products.show', compact('product'));
+        return redirect()->route('products.index')->with('success', 'Product created');
     }
 
     public function destroy($id)
@@ -63,4 +50,3 @@ class ProductController extends Controller
         return back()->with('success', 'Product deleted');
     }
 }
-    
