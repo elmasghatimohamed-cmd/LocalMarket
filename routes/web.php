@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 //seller route
-Route::middleware('auth')->prefix('seller')->group(function () {
+Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('/products', [ProductController::class, 'crud'])
         ->name('seller.products.index');
 
@@ -39,7 +39,7 @@ Route::middleware('auth')->prefix('seller')->group(function () {
         ->name('seller.products.create');
 
     Route::post('/products', [ProductController::class, 'store'])
-        ->name('seller.crud.store');
+        ->name('seller.products.store');
 
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])
         ->name('seller.products.edit');

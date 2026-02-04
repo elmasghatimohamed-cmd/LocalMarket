@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('products.index', compact('products'));
+        return view('products.index','seller.crud.index', compact('products'));
     }
 
     public function crud()
@@ -35,8 +35,13 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
 
         Product::create([
             'seller_id' => Auth::id(),
@@ -45,9 +50,10 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
+            'image' => $imagePath,
         ]);
 
-        return redirect()->route('seller.crud.crud')->with('success', 'Product created');
+        return back()->with('success', 'Product created');
     }
 
     public function show(Product $product)

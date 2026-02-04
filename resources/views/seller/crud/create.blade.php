@@ -1,6 +1,6 @@
 <h2>Add Product</h2>
 
-<form method="POST" action="{{ route('seller.crud.store') }}">
+<form method="POST" action="{{ route('seller.products.store') }}" enctype="multipart/form-data">
     @csrf
 
     <label class="block mb-2 font-semibold">Category</label>
@@ -18,6 +18,8 @@
 
 
     <input type="text" name="name" placeholder="Product name"><br><br>
+
+    <input type="file" name="image" accept="image/*"><br><br>
 
     <textarea name="description" placeholder="Description"></textarea><br><br>
 

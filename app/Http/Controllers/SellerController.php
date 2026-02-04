@@ -37,7 +37,7 @@ class SellerController extends Controller
             'stock' => $request->stock,
         ]);
 
-        return redirect()->route('seller.crud.create')->with('success', 'Product created');
+        return back()->with('success', 'Product created');
     }
 
     public function destroy($id)
