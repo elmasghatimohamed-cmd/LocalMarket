@@ -47,6 +47,9 @@
                 @if($product->stock < 5)
                     <div class="absolute top-4 left-4 bg-[#DFFF00] text-black text-[10px] font-extrabold px-3 py-1 rounded-md z-10 uppercase">Low Stock</div>
                 @endif
+                @if(isset($product->status) && $product->status !== 'active')
+                    <div class="badge" style="left:auto; right:12px; background:#6b7280;">Inactive</div>
+                @endif
                 
                 <div class="w-full h-40 bg-[#111] flex items-center justify-center p-6 overflow-hidden">
                     <img src="{{ asset('storage/' . $product->image) }}" 

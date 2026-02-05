@@ -42,6 +42,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'status' => 'nullable|string|in:active,inactive',
         ]);
 
         $imagePath = null;
@@ -57,6 +58,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
+            'status' => $request->input('status', 'active'),
             
         ]);
 
@@ -90,6 +92,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'status' => 'nullable|string|in:active,inactive',
         ]);
 
         $imagePath = $product->image;
@@ -104,6 +107,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
+            'status' => $request->input('status', $product->status ?? 'active'),
         ]);
 
         return redirect('myproducts')->with('success', 'Product updated');
