@@ -40,6 +40,9 @@ Route::middleware([
         if ($user && method_exists($user, 'hasRole') && $user->hasRole('client')) {
             return redirect()->route('products.index');
         }
+        return view('dashboard');
+    })->name('dashboard');
+});
 
 Route::middleware(['auth', 'role:client|admin'])->group(function () {
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
