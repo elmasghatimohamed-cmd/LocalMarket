@@ -115,7 +115,7 @@
         </div>
         <div class="stat-card">
             <i class="fas fa-check-circle"></i>
-            <div><b>Active</b><span>Store Status</span></div>
+            <div><b>{{ $products->where('status', 'active')->count() }}</b><span>Active Items</span></div>
         </div>
         <div class="stat-card">
             <i class="fas fa-wallet"></i>
@@ -128,6 +128,9 @@
             <div class="product-card">
                 @if($product->stock < 5)
                     <div class="badge">Low Stock</div>
+                @endif
+                @if(isset($product->status) && $product->status !== 'active')
+                    <div class="badge" style="left:auto; right:12px; background:#6b7280;">Inactive</div>
                 @endif
                 
                 <div class="image-container">

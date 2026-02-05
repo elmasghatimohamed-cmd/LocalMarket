@@ -66,6 +66,14 @@
                 <input type="number" name="stock" placeholder="Quantity in hand" required>
             </div>
 
+            <div class="form-group">
+                <label>Status</label>
+                <select name="status" required>
+                    <option value="active" selected>Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+
             <div class="form-group full-width">
                 <label>Description</label>
                 <textarea name="description" rows="4" placeholder="Describe your product..."></textarea>
