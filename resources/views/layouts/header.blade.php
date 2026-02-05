@@ -1,100 +1,103 @@
-<header class="header-area header-style-1 header-height-2 px-20 shadow-sm">
-    <div class="header-middle d-none d-lg-block py-3">
-        <div class="container">
-            <div class="header-wrap flex justify-between items-center">
-                <div class="logo w-[12rem]">
-                    <x-application-logo></x-application-logo>
-                </div>
-                <div class="search-style-1 flex-grow px-20">
-                    <form action="{{ route('home') }}" class="w-100">
-                        <input id="search" name="search" type="text" placeholder="Search for any product, category, brand..."/>
-                    </form>
-                </div>
-                <div class="header-action-right">
-                    <div class="header-action-2">
-                        @auth
-                            <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
-                                <nav class="">
-                                    <ul class="">
-                                        <li>
-                                            <h1 class="text-black font-bold text-[1rem]">Hi, {{ Auth::user()->name }}</h1>
-                                        </li>
-                                        <li><a href="#">My Account<i class="fi-rs-angle-down"></i></a>
-                                            <ul class="sub-menu">
-                                                @if (Auth::user()->is_admin)
-                                                    <li><a href="/admin">Admin Dashboard</a></li>
-                                                @endif
-                                                <li><a href="{{ route('dashboard') }}">Orders Dashboard</a></li>
-                                                <li><a href="{{ route('profile.edit') }}">Account Settings</a></li>
-                                                <li>
-                                                    <form method="POST" action="{{ route('logout') }}">
-                                                        @csrf
-                                                        <a href="{{ route('logout') }}"
-                                                            onclick="event.preventDefault(); this.closest('form').submit();">
-                                                            {{ __('Log Out') }}
-                                                        </a>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            @else
-                            <a href="{{ route('login') }}" class="pr-4 text-md font-semibold ">Log
-                                in</a>
-
-                                @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="btn btn-sm btn-default">Register</a>
-                                @endif
-                                @endauth
-                                <div class="header-action-icon-2 ml-10">
-                                    <a class="mini-cart-icon" href="{{ route('cart') }}">
-                                        {{-- <img alt="Yusuf Isawi" src="{{ asset('assets/imgs/theme/icons/icon-cart.svg') }}"> --}}
-                                        <i class="fi-rs-shopping-cart text-3xl"></i>
-                                        <span class="pro-count blue">{{Cart::count()}}</span>
-                                    </a>
-                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 border-gray-200">
-                                        <ul>
-                                            @foreach (Cart::content() as $item)
-                                                <li>
-                                                    <div class="shopping-cart-img">
-                                                        <a href="{{ route('product.details', $item->model->id) }}">
-                                                            <img alt="" src="{{ asset('storage/'.$item->model->image) }}"></a>
-                                                    </div>
-                                                    <div class="shopping-cart-title">
-                                                        <h4><a
-                                                                href="{{ route('product.details', $item->model->id) }}">
-                                                                {{ strlen($item->model->name) > 15 ? substr($item->model->name, 0, 15) . '...' : $item->model->name }}
-                                                            </a>
-                                                        </h4>
-                                                        <h4><span>{{$item->qty}} × </span>${{$item->model->price}}</h4>
-                                                    </div>
-                                                    <div class="shopping-cart-delete">
-                                                        <form action="{{ route('destroy.item') }}" method="post">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <input type="hidden" name="row_id" value="{{ $item->rowId }}">
-                                                            <a onclick="event.preventDefault(); this.closest('form').submit()"><i class="fi-rs-cross-small"></i></a>
-                                                        </form>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                        <div class="shopping-cart-footer">
-                                            <div class="shopping-cart-total">
-                                                <h4>Total <span>${{Cart::total()}}</span></h4>
-                                            </div>
-                                            <div class="shopping-cart-button">
-                                                <a href="{{ route('cart') }}" class="btn btn-sm btn-secondary">View cart</a>
-                                                <a href="{{ route('checkout') }}" class="btn btn-sm">Checkout</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                    </div>
-                </div>
+<!-- <script src="https://cdn.tailwindcss.com"></script>
+<header class="bg-white">
+    <div class="container mx-auto px-4 py-6 flex flex-wrap items-center justify-between gap-6">
+        
+        <div class="flex items-center gap-3">
+            <div class="relative w-12 h-12 bg-black flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 border-[6px] border-[#f3b110] rotate-45"></div>
+                <div class="w-4 h-4 rounded-full bg-white z-10"></div>
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Local<span class="text-[#f3b110]">Market</span></h1>
+                <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-medium -mt-1">A Perfect Tech Store</p>
             </div>
         </div>
+
+        <div class="flex-1 max-w-md hidden md:block">
+            <div class="relative">
+                <input type="text" placeholder="Search for products..." 
+                       class="w-full bg-gray-50 border border-gray-100 rounded-full py-2.5 px-6 focus:outline-none focus:ring-2 focus:ring-[#f3b110] transition-all">
+                <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#f3b110]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-8">
+            <a class="group flex items-center gap-2">
+                <div class="w-10 h-10 rounded-full border-2 border-[#f3b110] flex items-center justify-center text-[#f3b110] group-hover:bg-[#f3b110] group-hover:text-white transition-all">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                </div>
+
+                @if (Route::has('login'))
+                    @auth
+
+                <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 group-hover:text-[#f3b110]">Log In</a>
+
+                @if (Route::has('register'))
+
+                <a href="{{ route('register') }}" class="text-sm font-bold text-gray-700 group-hover:text-[#f3b110]">Register</a>
+
+                @endif
+                                @endauth
+            </a>
+
+            <a href="#" class="relative group">
+                <div class="bg-[#f3b110] p-3 rounded-lg shadow-sm group-hover:shadow-md transition-all">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                </div>
+                <span class="absolute -top-2 -right-2 bg-black text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
+                    1
+                </span>
+            </a>
+        </div>
     </div>
+
+    <nav class="bg-[#1a1a1a]">
+        <div class="container mx-auto px-4 flex items-center justify-between">
+            <ul class="flex">
+                <li><a href="#" class="inline-block py-4 px-6 text-gray-400 hover:text-white hover:bg-white/5 transition-all text-sm font-medium border-b-2 border-transparent hover:border-[#f3b110]">Home</a></li>
+                <li><a href="#" class="inline-block py-4 px-6 text-white bg-white/5 text-sm font-medium border-b-2 border-[#f3b110]">Shop</a></li>
+                <li><a href="#" class="inline-block py-4 px-6 text-gray-400 hover:text-white hover:bg-white/5 transition-all text-sm font-medium border-b-2 border-transparent hover:border-[#f3b110]">FAQ</a></li>
+                <li><a href="#" class="inline-block py-4 px-6 text-gray-400 hover:text-white hover:bg-white/5 transition-all text-sm font-medium border-b-2 border-transparent hover:border-[#f3b110]">Contact Us</a></li>
+            </ul>
+            
+            <div class="hidden lg:flex items-center gap-2 text-white/60 text-sm italic">
+                <span>Call Us:</span>
+                <span class="text-white font-bold not-italic tracking-wider">1-800-000-0000</span>
+            </div>
+        </div>
+    </nav>
 </header>
+
+
+        @if (Route::has('login'))
+                            <nav class="-mx-3 flex flex-1 justify-end">
+                                @auth
+                                    <a
+                                        href="{{ url('/dashboard') }}"
+                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                    >
+                                        Dashboard
+                                    </a>
+                                @else
+                                    <a
+                                        href="{{ route('login') }}"
+                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                    >
+                                        Log in
+                                    </a>
+
+                                    @if (Route::has('register'))
+                                        <a
+                                            href="{{ route('register') }}"
+                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                        >
+                                            Register
+                                        </a>
+                                    @endif
+                                @endauth
+                            </nav>
+                        @endif -->
