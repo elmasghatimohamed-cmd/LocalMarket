@@ -16,11 +16,11 @@ class OrderController extends Controller
         $user = Auth::user();
         
         // Admins see all orders, others see only theirs
-        if ($user->hasRole('admin') || $user->hasRole('moderator')) {
-            $orders = Order::with('user', 'orderItems')->latest()->paginate(15);
+        if ($user && ($user->hasRole('admin') || $user->hasRole('moderator'))) {
+            $orders = Order::with('user', 'items')->latest()->paginate(15);
         } else {
-            $orders = Order::where('user_id', $user->id)
-                ->with('orderItems')
+            $orders = Order::where('user_id', $user->id ?? auth()->id())
+                ->with('items')
                 ->latest()
                 ->paginate(15);
         }
@@ -34,11 +34,16 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         // Check authorization
-        if (auth()->id() !== $order->user_id && !auth()->user()->hasRole(['admin', 'moderator'])) {
+        if (auth()->id() !== $order->user_id && !auth()->check()) {
+            abort(403, 'Unauthorized access');
+        }
+        
+        $user = auth()->user();
+        if (auth()->id() !== $order->user_id && !($user->hasRole('admin') || $user->hasRole('moderator'))) {
             abort(403, 'Unauthorized access');
         }
 
-        $order->load('user', 'orderItems.product');
+        $order->load('user', 'items.product');
         
         return view('orders.show', compact('order'));
     }

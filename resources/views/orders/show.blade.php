@@ -1,6 +1,33 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order #{{ $order->id }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+            <a href="{{ route('products.index') }}" class="flex items-center gap-2">
+                <div class="text-2xl font-bold text-gray-900">Local<span class="text-orange-500">Market</span></div>
+            </a>
+            <nav class="flex gap-6">
+                <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-orange-500">Products</a>
+                <a href="{{ route('cart.index') }}" class="text-gray-700 hover:text-orange-500">Cart</a>
+                <a href="{{ route('orders.index') }}" class="text-orange-500 font-bold">Orders</a>
+                @auth
+                    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="text-gray-700 hover:text-red-600">Logout</button>
+                    </form>
+                @endauth
+            </nav>
+        </div>
+    </header>
 
-@section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="mb-6">
         <a href="{{ route('orders.index') }}" class="text-blue-600 hover:text-blue-700 flex items-center">
@@ -54,7 +81,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($order->orderItems as $item)
+                        @foreach($order->items as $item)
                             <tr class="border-b border-gray-100">
                                 <td class="py-3 px-4">
                                     <div class="text-gray-900 font-medium">{{ $item->product->name ?? 'Product' }}</div>
@@ -99,4 +126,12 @@
         </div>
     </div>
 </div>
-@endsection
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white mt-16 py-8">
+    <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2026 LocalMarket. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
