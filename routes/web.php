@@ -22,7 +22,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', function () {
         $user = auth()->user();
-        if ($user && method_exists($user, 'hasRole') && $user->hasRole('admin')) {
+        if ($user && method_exists($user, 'hasRole') && $user->hasanyRole(['admin', 'moderator', 'seller'])) {
             return redirect()->route('admin.dashboard');
         }
 
@@ -72,7 +72,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderator|seller'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/roles', [RoleSwitcherController::class, 'index'])->name('role_switcher');

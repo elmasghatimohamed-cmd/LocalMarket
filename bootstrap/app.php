@@ -18,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'admin' => \Spatie\Permission\Middleware\RoleMiddleware::class . ':admin',
             'seller' => \Spatie\Permission\Middleware\RoleMiddleware::class . ':seller',
+            'moderator' => \Spatie\Permission\Middleware\RoleMiddleware::class . ':moderator',
+            'client' => \Spatie\Permission\Middleware\RoleMiddleware::class . ':client',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
