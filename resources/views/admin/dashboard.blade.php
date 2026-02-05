@@ -138,19 +138,14 @@
                     <a href="{{ route('admin.categories.index') }}"
                         class="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition font-medium text-sm">Manage
                         Categories</a>
-                    <a href="{{ route('admin.categories.create') }}"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-sm">+
-                        Add Category</a>
-                    <a href="{{ route('admin.categories.index') }}"
-                        class="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300 transition font-medium text-sm">Manage
-                        Categories</a>
-                    <!-- 'All Users Roles' button removed -->
+                </div>
+            </div>
 
             <!-- Recent Orders Section -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-8 mb-12">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-lg font-bold text-slate-900">Recent Orders</h2>
-                    <a href="#" class="text-sm text-blue-600 hover:text-blue-700 font-medium">View all →</a>
+                    <a href="{{ route('orders.index') }}" class="text-sm text-blue-600 hover:text-blue-700 font-medium">View all →</a>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full">
