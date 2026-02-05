@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\RoleSwitcherController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderItemController;
 
 
 
@@ -93,3 +94,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderato
 
     Route::resource('categories', CategoryController::class)->except(['show']);
 });
+
+//order routes 
+Route::put('/orders/{order}/status', [OrderItemController::class, 'updateStatus'])->name('orders.updateStatus');
