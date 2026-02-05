@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Container\Attributes\Auth;
 class SellerController extends Controller
 {
     public function index()
     {
         $products = Product::where('seller_id', Auth::id())->get();
-        return view('products.index', compact('products'));
+        return view('seller.crud.index', compact('products'));
     }
 
     public function create()
@@ -36,7 +37,7 @@ class SellerController extends Controller
             'stock' => $request->stock,
         ]);
 
-        return redirect()->route('products.index')->with('success', 'Product created');
+        return back()->with('success', 'Product created');
     }
 
     public function destroy($id)

@@ -35,7 +35,7 @@ class RolesAndPermissionsSeeder extends Seeder
         }
 
         Role::firstOrCreate(['name' => 'client', 'guard_name' => 'web'])
-            ->syncPermissions(['view products', 'view orders','create products','edit products','delete products']);
+            ->syncPermissions(['view products', 'view orders']);
 
         Role::firstOrCreate(['name' => 'seller', 'guard_name' => 'web'])
             ->syncPermissions([

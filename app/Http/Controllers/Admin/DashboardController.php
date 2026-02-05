@@ -24,11 +24,12 @@ class DashboardController extends Controller
 
         $recent_orders = Order::latest()->take(10)->get();
         $recent_users = User::latest()->take(10)->get();
+        $roles = \Spatie\Permission\Models\Role::pluck('name');
         $product_stats = Product::selectRaw('category_id, COUNT(*) as count')
             ->groupBy('category_id')
             ->with('category')
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recent_orders', 'recent_users', 'product_stats'));
+        return view('admin.dashboard', compact('stats', 'recent_orders', 'recent_users', 'product_stats', 'roles'));
     }
 }
