@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::middleware([
@@ -30,6 +30,16 @@ Route::middleware([
     })->name('dashboard');
 });
 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+        if ($user && method_exists($user, 'hasRole') && $user->hasRole('client')) {
+            return redirect()->route('products.index');
+        }
 
 Route::middleware(['auth', 'role:client|admin'])->group(function () {
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
