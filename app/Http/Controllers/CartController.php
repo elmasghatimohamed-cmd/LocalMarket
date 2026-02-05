@@ -20,7 +20,7 @@ class CartController extends Controller
 
         $cart->load('items.product');
 
-        return view('cart', compact('cart'));
+        return view('cart.index', compact('cart'));
     }
 
     public function addProduct(Request $request)

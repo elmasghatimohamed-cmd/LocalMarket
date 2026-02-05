@@ -38,10 +38,11 @@ class ProductController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'nullable|string|in:active,inactive',
         ]);
 
         $imagePath = null;
@@ -53,13 +54,15 @@ class ProductController extends Controller
             'seller_id' => Auth::id(),
             'category_id' => $request->category_id,
             'name' => $request->name,
+            'image' => $imagePath,
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
-            'image' => $imagePath,
+            'status' => $request->input('status', 'active'),
+            
         ]);
 
-        return back()->with('success', 'Product created');
+        return redirect('myproducts')->with('success', 'Product created');
     }
 
     public function show(Product $product)
@@ -70,6 +73,44 @@ class ProductController extends Controller
         }, 'reviews.user']);
 
         return view('products.show', compact('product'));
+    }
+
+    public function edit($id){
+        $product = Product::with('category')->where('id', $id)->where('seller_id', Auth::id())->firstOrFail();
+        $categories = Category::all();
+        return view('seller.crud.edit', compact('product', 'categories'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = Product::where('id', $id)->where('seller_id', Auth::id())->firstOrFail();
+
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'status' => 'nullable|string|in:active,inactive',
+        ]);
+
+        $imagePath = $product->image;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
+
+        $product->update([
+            'category_id' => $request->category_id,
+            'name' => $request->name,
+            'image' => $imagePath,
+            'description' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'status' => $request->input('status', $product->status ?? 'active'),
+        ]);
+
+        return redirect('myproducts')->with('success', 'Product updated');
     }
 
     public function destroy($id)
