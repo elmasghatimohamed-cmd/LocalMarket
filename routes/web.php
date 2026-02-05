@@ -26,8 +26,8 @@ Route::middleware([
             return redirect()->route('admin.dashboard');
         }
 
-        return view('dashboard');
-    })->name('dashboard');
+        return view('product.index');
+    })->name('products');
 });
 
 Route::middleware([
