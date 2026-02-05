@@ -70,6 +70,14 @@
                 <input type="number" name="stock" value="{{ $product->stock }}" required>
             </div>
 
+            <div class="form-group">
+                <label>Status</label>
+                <select name="status" required>
+                    <option value="active" {{ $product->status === 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="inactive" {{ $product->status === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                </select>
+            </div>
+
             <div class="form-group full-width">
                 <label>Description</label>
                 <textarea name="description" rows="4">{{ $product->description }}</textarea>
