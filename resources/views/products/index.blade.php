@@ -1,240 +1,147 @@
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    protech: '#DFFF00',
+                    darkBg: '#080808',
+                    cardBg: '#111111',
+                },
+                fontFamily: {
+                    tech: ['Orbitron', 'sans-serif'],
+                    sans: ['Plus Jakarta Sans', 'sans-serif'],
+                }
+            }
+        }
+    }
+</script>
 
+<style>
+    body { background-color: #080808; color: white; }
+    .custom-shadow { shadow-[0_0_20px_rgba(223,255,0,0.1)]; }
+</style>
 
+@include('navigation-menu')
 
-<header class="bg-white" x-data="{ openProfile: false }">
-    <div class="container mx-auto px-4 py-6 flex flex-wrap items-center justify-between gap-6">
+<div class="min-h-screen bg-darkBg text-white font-sans">
 
-        <div class="flex items-center gap-3">
-            <div class="relative w-12 h-12 bg-black flex items-center justify-center overflow-hidden">
-                <div class="absolute inset-0 border-[6px] border-[#f3b110] rotate-45"></div>
-                <div class="w-4 h-4 rounded-full bg-white z-10"></div>
-            </div>
+    <div class="container mx-auto px-6 pt-12">
+        <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Local<span class="text-[#f3b110]">Market</span></h1>
-                <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-medium -mt-1">A Perfect Tech Store</p>
+                <nav class="text-xs text-white/40 mb-4 flex gap-2">
+                    <a href="#">Home</a> <span>•</span> <a href="#" class="text-white/80">Bestsellers</a>
+                </nav>
+                <h1 class="text-5xl font-tech tracking-tight uppercase">Bestsellers</h1>
             </div>
-        </div>
-
-        <div class="flex-1 max-w-md hidden md:block">
-            <div class="relative">
-                <input type="text" placeholder="Search for products..."
-                    class="w-full bg-gray-50 border border-gray-100 rounded-full py-2.5 px-6 focus:outline-none focus:ring-2 focus:ring-[#f3b110] transition-all">
-                <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#f3b110]">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
+            
+            <div class="flex gap-4">
+                <div class="flex bg-white/5 p-1 rounded-full border border-white/10">
+                    <button class="px-6 py-2 rounded-full bg-protech text-black font-bold text-sm">All items</button>
+                    <button class="px-6 py-2 rounded-full text-white/60 text-sm hover:text-white">Smartphones</button>
+                    <button class="px-6 py-2 rounded-full text-white/60 text-sm hover:text-white">Kitchen</button>
+                </div>
+                <button class="flex items-center gap-2 bg-white/5 border border-white/10 px-6 py-2 rounded-full text-sm font-medium">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 4h18M6 12h12m-7 8h2"></path></svg>
+                    Top rated
                 </button>
             </div>
         </div>
-
-        
-
-        <!-- <div class="flex items-center gap-8">
-
-            <a class="group flex items-center gap-2">
-                <div class="w-10 h-10 rounded-full border-2 border-[#f3b110] flex items-center justify-center text-[#f3b110] group-hover:bg-[#f3b110] group-hover:text-white transition-all">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                    </svg>
-                </div>
-
-                @if (Route::has('login'))
-                @auth
-
-
-
-                <a href="{{ url('/products') }}" class="text-sm font-bold text-gray-700 group-hover:text-[#f3b110]">{{ Auth::user()->name }}
-                </a>
-
-                @else
-
-                <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 group-hover:text-[#f3b110]">Log In</a>
-
-
-
-                @if (Route::has('register'))
-
-                <a href="{{ route('register') }}" class="text-sm font-bold text-gray-700 group-hover:text-[#f3b110]">Register</a>
-
-                @endif
-                @endauth
-            </a>
-
-            @endif
-
-            <a href="#" class="relative group">
-                <div class="bg-[#f3b110] p-3 rounded-lg shadow-sm group-hover:shadow-md transition-all">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                    </svg>
-                </div>
-                <span class="absolute -top-2 -right-2 bg-black text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
-                    1
-                </span>
-            </a>
-        </div> -->
-
-        <div class="flex items-center gap-8">
-            @if (Route::has('login'))
-                @auth
-                    <div class="relative">
-                        <button @click="openProfile = ! openProfile" class="group flex items-center gap-2 focus:outline-none">
-                            <div class="w-10 h-10 rounded-full border-2 border-[#f3b110] flex items-center justify-center overflow-hidden transition-all group-hover:bg-[#f3b110]">
-                                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                    <img class="size-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                                @else
-                                    <svg class="w-5 h-5 text-[#f3b110] group-hover:text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
-                                @endif
-                            </div>
-                            <div class="text-left hidden sm:block">
-                                <span class="text-xs block font-bold text-gray-700 leading-none">{{ Auth::user()->name }}</span>
-                                <span class="text-[10px] text-gray-400">Account Settings</span>
-                            </div>
-                        </button>
-
-                        <div x-show="openProfile" 
-                             @click.away="openProfile = false"
-                             x-transition:enter="transition ease-out duration-200"
-                             x-transition:enter-start="transform opacity-0 scale-95"
-                             x-transition:enter-end="transform opacity-100 scale-100"
-                             class="absolute right-0 mt-3 w-48 bg-white border border-gray-100 shadow-xl rounded-xl py-2 z-50">
-                            
-                            <div class="block px-4 py-2 text-xs text-gray-400 uppercase tracking-widest font-bold">Manage Account</div>
-                            
-                            <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#f3b110] transition-colors">
-                                {{ __('Your Profile') }}
-                            </a>
-
-                            <!-- <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
-                                {{ __('Dashboard') }}
-                            </a> -->
-
-                            <div class="border-t border-gray-100 my-1"></div>
-
-                            <form method="POST" action="{{ route('logout') }}" x-data>
-                                @csrf
-                                <button type="submit" @click.prevent="$root.submit();" class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors font-bold">
-                                    {{ __('Log Out') }}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                @else
-                    <div class="flex items-center gap-4">
-                        <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-[#f3b110]">Log In</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="bg-black text-white text-xs px-5 py-2 rounded-full font-bold hover:bg-[#f3b110] transition-all">Register</a>
-                        @endif
-                    </div>
-                @endauth
-            @endif
-
-            <a href="{{ route('cart.index') }}" class="relative group">
-                <div class="bg-[#f3b110] p-3 rounded-lg shadow-sm group-hover:shadow-md transition-all">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                    </svg>
-                </div>
-                <span class="absolute -top-2 -right-2 bg-black text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
-                    0
-                </span>
-            </a>
-        </div>
     </div>
 
-    <nav class="bg-[#1a1a1a]">
-        <div class="container mx-auto px-4 flex items-center justify-between">
-            <ul class="flex">
-                <li><a href="#" class="inline-block py-4 px-6 text-gray-400 hover:text-white hover:bg-white/5 transition-all text-sm font-medium border-b-2 border-transparent hover:border-[#f3b110]">Home</a></li>
-                <li><a href="#" class="inline-block py-4 px-6 text-white bg-white/5 text-sm font-medium border-b-2 border-[#f3b110]">Shop</a></li>
-                <li><a href="#" class="inline-block py-4 px-6 text-gray-400 hover:text-white hover:bg-white/5 transition-all text-sm font-medium border-b-2 border-transparent hover:border-[#f3b110]">FAQ</a></li>
-                <li><a href="#" class="inline-block py-4 px-6 text-gray-400 hover:text-white hover:bg-white/5 transition-all text-sm font-medium border-b-2 border-transparent hover:border-[#f3b110]">Contact Us</a></li>
-            </ul>
-
-            <div class="hidden lg:flex items-center gap-2 text-white/60 text-sm italic">
-                <span>Call Us:</span>
-                <span class="text-white font-bold not-italic tracking-wider">1-800-000-0000</span>
-            </div>
-        </div>
-    </nav>
-</header>
-
-
-
-
-<div class="bg-gray-50 min-h-screen">
-    <header class="bg-white border-b border-gray-100 py-12 mb-12">
-        <div class="container mx-auto px-4 text-center">
-            <span class="text-orange-500 font-bold tracking-widest uppercase text-xs mb-2 block">LocalMart Collection</span>
-            <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">Discover Local Products</h1>
-            <p class="text-gray-500 max-w-xl mx-auto">High quality products from your local sellers, delivered with care to your doorstep.</p>
-        </div>
-    </header>
-
-    <div class="container mx-auto px-4 pb-20">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            @forelse($products as $product)
-            <div class="group bg-white transition-all duration-300 flex flex-col items-center text-center p-6 border border-transparent hover:border-gray-100 hover:shadow-xl relative overflow-hidden">
-
-                <div class="relative w-full aspect-square mb-6 overflow-hidden flex items-center justify-center bg-[#f9f9f9]">
-                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
-                        class="max-w-[85%] max-h-[85%] object-contain transition-transform duration-700 group-hover:scale-110">
-
-                    <div class="absolute inset-0 flex items-end justify-center pb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <a href="{{ route('products.show', $product) }}" class="text-[11px] uppercase tracking-widest font-bold text-gray-800 bg-white/95 px-5 py-2.5 shadow-md hover:bg-black hover:text-white transition-all">
-                            Quick View
-                        </a>
-                    </div>
-
-                    @if($product->stock <= 0)
-                        <span class="absolute top-0 left-0 bg-black text-white text-[10px] px-3 py-1.5 uppercase font-bold">Sold Out</span>
-                        @elseif($product->stock <= 5)
-                            <span class="absolute top-0 left-0 bg-red-600 text-white text-[10px] px-3 py-1.5 uppercase font-bold tracking-tighter">Low Stock</span>
-                            @endif
+    <div class="container mx-auto px-6 flex gap-10 pb-20">
+        <aside class="w-64 hidden lg:block space-y-10">
+            <div>
+                <button class="text-white/60 text-sm flex items-center gap-2 mb-6 hover:text-white">
+                    <span class="text-xl">×</span> Reset filters
+                </button>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs flex items-center gap-2 border border-white/10">Apple <button>×</button></span>
+                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs flex items-center gap-2 border border-white/10">SMEG <button>×</button></span>
                 </div>
+            </div>
 
-                <div class="w-full">
-                    <div class="flex flex-col items-center gap-1 mb-3">
-                        <span class="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-medium">
-                            {{ $product->category->name ?? "I'm a Product" }}
-                        </span>
-                        <h2 class="text-gray-900 text-lg font-medium leading-tight truncate w-full px-2">
-                            <a href="{{ route('products.show', $product) }}">{{ $product->name }}</a>
-                        </h2>
+            <div class="space-y-6">
+                <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                    <span class="font-bold uppercase tracking-widest text-xs">Price</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                        <span class="font-bold uppercase tracking-widest text-xs">Brand</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"></path></svg>
+                    </div>
+                    <div class="space-y-3 px-1">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" checked class="w-5 h-5 accent-protech rounded">
+                            <span class="text-sm text-white/80 group-hover:text-white transition-colors">Apple</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" class="w-5 h-5 accent-protech rounded">
+                            <span class="text-sm text-white/60 group-hover:text-white transition-colors">Samsung</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex-1">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                @forelse($products as $product)
+                <div class="group bg-cardBg rounded-[32px] p-6 border border-white/5 hover:border-protech/50 transition-all duration-500 relative overflow-hidden">
+                    <div class="absolute top-6 left-6 z-10">
+                        <span class="bg-protech text-black text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-tighter">Sale 15%</span>
+                    </div>
+                    
+                    <button class="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </button>
+
+                    <div class="relative aspect-square mb-8 p-4">
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" 
+                             class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110">
                     </div>
 
-                    <div class="flex flex-col items-center gap-2 mb-6">
-                        <div class="flex items-center gap-1">
-                            @php $rating = round($product->reviews_avg_rating ?? 5); @endphp
-                            <span class="text-orange-400 text-xs">
-                                {{ str_repeat('★', $rating) }}{{ str_repeat('☆', 5 - $rating) }}
-                            </span>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between text-white/40 text-[10px] font-bold uppercase tracking-widest">
+                            <span>{{ $product->brand ?? 'SMEG' }}</span>
+                            <div class="flex items-center gap-1">
+                                <span class="text-protech text-sm">★</span>
+                                <span class="text-white">{{ number_format($product->reviews_avg_rating ?? 5.0, 1) }}</span>
+                            </div>
                         </div>
-                        <span class="text-gray-900 font-light text-xl tracking-tight">${{ number_format($product->price, 2) }}</span>
-                    </div>
-
-                    <div class="mt-auto">
-                        <button class="w-full bg-[#f3b110] hover:bg-black hover:text-white text-black text-[12px] font-black py-4 transition-all duration-300 uppercase tracking-widest">
-                            Add to Cart
-                        </button>
+                        
+                        <div>
+                            <div class="flex items-baseline gap-3 mb-1">
+                                <span class="text-2xl font-tech">${{ number_format($product->price, 2) }}</span>
+                                <span class="text-white/20 line-through text-sm font-tech">${{ number_format($product->price * 1.2, 2) }}</span>
+                            </div>
+                            <h3 class="text-white/70 font-medium group-hover:text-white transition-colors leading-tight truncate">
+                                {{ $product->name }}
+                            </h3>
+                            <p class="text-[10px] text-white/30 uppercase mt-1">{{ $product->category->name ?? 'Home Appliances' }}</p>
+                        </div>
+                        
+                        <form action="{{ route('cart.add') }}" method="POST" class="mt-4">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="w-full bg-protech hover:bg-white text-black font-bold py-3 px-4 rounded-full transition-all duration-300 flex items-center justify-center gap-2 group">
+                                <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                ADD TO CART
+                            </button>
+                        </form>
                     </div>
                 </div>
+                @empty
+                <div class="col-span-full py-40 text-center opacity-20">
+                    <p class="font-tech text-2xl uppercase tracking-[0.5em]">No products found</p>
+                </div>
+                @endforelse
             </div>
-            @empty
-            <div class="col-span-full text-center py-32 bg-white rounded-3xl border-2 border-dashed border-gray-100">
-                <svg class="w-16 h-16 text-gray-200 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                </svg>
-                <p class="text-gray-400 text-xl font-medium">No products available in the collection yet.</p>
-            </div>
-            @endforelse
-        </div>
-
-        <div class="mt-20 flex justify-center">
-            {{ $products->links() }}
         </div>
     </div>
 </div>
