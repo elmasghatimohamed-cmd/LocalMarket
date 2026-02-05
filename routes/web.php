@@ -43,23 +43,23 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
 
 
 //seller route
-Route::middleware(['auth', 'role:seller'])->group(function () {
-    Route::get('/myproducts', [ProductController::class, 'sellerProduct'])
-        ->name('seller.products.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/myproducts', [ProductController::class, 'crud'])
+        ->name('seller.crud.index');
 
-    Route::get('/products/create', [ProductController::class, 'create'])
+    Route::get('/myproducts/create', [ProductController::class, 'create'])
         ->name('seller.products.create');
 
-    Route::post('/products', [ProductController::class, 'store'])
+    Route::post('/myproducts', [ProductController::class, 'store'])
         ->name('seller.products.store');
 
-    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])
+    Route::get('/myproducts/{product}/edit', [ProductController::class, 'edit'])
         ->name('seller.products.edit');
 
-    Route::put('/products/{product}', [ProductController::class, 'update'])
+    Route::put('/myproducts/{product}', [ProductController::class, 'update'])
         ->name('seller.products.update');
 
-    Route::delete('/products/{product}', [ProductController::class, 'destroy'])
+    Route::delete('/myproducts/{product}', [ProductController::class, 'destroy'])
         ->name('seller.products.destroy');
 });
 
