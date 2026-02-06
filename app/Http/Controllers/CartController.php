@@ -21,18 +21,18 @@ class CartController extends Controller
         $cart->load('items.product');
 
         return view('cart.index', compact('cart'));
-        
+
     }
 
 
-    
+
     public function addProduct(Request $request)
     {
         $user = Auth::user();
 
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1'
+            'quantity' => 'required|integer|min:0'
         ]);
 
         $product = Product::findOrFail($request->product_id);
@@ -66,13 +66,13 @@ class CartController extends Controller
     public function removeProduct($id)
     {
         $cartItem = CartItem::findOrFail($id);
-        
+
         if ($cartItem->cart->user_id !== Auth::id()) {
             abort(403);
         }
-        
+
         $cartItem->delete();
-        
+
         return redirect()->route('cart.index')->with('success', 'Product removed from cart');
     }
 }
