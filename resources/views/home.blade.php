@@ -30,64 +30,25 @@
             </div>
             <a href="#" class="text-[#DFFF00] text-[10px] font-black uppercase tracking-widest border-b border-[#DFFF00] pb-1">Browse All Products</a>
         </div>
+        
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
-                <div class="relative aspect-square mb-6 overflow-hidden rounded-2xl bg-[#0a0a0a] flex items-center justify-center">
-                    <img src="https://m.media-amazon.com/images/I/61S9aVn9d6L._AC_SL1500_.jpg" class="w-40 h-40 object-contain group-hover:scale-110 transition-transform duration-500">
+            @foreach($products as $product)
+                <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
+                <div class="relative w-full h-48 mb-6 p-4 bg-white/5 rounded-2xl flex items-center justify-center">
+                    <img src="{{ $product->image_url }}" class="w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-110">
                     <span class="absolute top-4 left-4 bg-[#DFFF00] text-black text-[9px] font-black px-3 py-1 rounded-full uppercase">New</span>
                 </div>
-                <h4 class="text-white font-bold uppercase tracking-tight mb-2">DualSense™ Edge Wireless</h4>
+                <h4 class="text-white font-bold uppercase tracking-tight mb-2">{{ $product->name }}</h4>
                 <div class="flex items-center justify-between mt-4">
-                    <span class="text-white font-[Orbitron] text-lg">$199.99</span>
+                    <span class="text-white font-[Orbitron] text-lg">{{$product->price}}</span>
                     <button class="bg-white/5 p-3 rounded-xl hover:bg-[#DFFF00] hover:text-black transition-colors text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                     </button>
                 </div>
             </div>
-
-            <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
-                <div class="relative aspect-square mb-6 overflow-hidden rounded-2xl bg-[#0a0a0a] flex items-center justify-center">
-                    <img src="https://m.media-amazon.com/images/I/71o8Q5h69ML._AC_SL1500_.jpg" class="w-40 h-40 object-contain group-hover:scale-110 transition-transform duration-500">
-                    <span class="absolute top-4 left-4 bg-red-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase">-15%</span>
-                </div>
-                <h4 class="text-white font-bold uppercase tracking-tight mb-2">SteelSeries Arctis Nova 7</h4>
-                <div class="flex items-center justify-between mt-4">
-                    <div>
-                        <span class="text-white font-[Orbitron] text-lg">$169.00</span>
-                        <span class="text-gray-600 text-xs line-through ml-2 font-[Orbitron]">$189.00</span>
-                    </div>
-                    <button class="bg-white/5 p-3 rounded-xl hover:bg-[#DFFF00] hover:text-black transition-colors text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    </button>
-                </div>
-            </div>
-
-            <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
-                <div class="relative aspect-square mb-6 overflow-hidden rounded-2xl bg-[#0a0a0a] flex items-center justify-center">
-                    <img src="https://m.media-amazon.com/images/I/51H9V6UvH+L._AC_SL1200_.jpg" class="w-40 h-40 object-contain group-hover:scale-110 transition-transform duration-500">
-                </div>
-                <h4 class="text-white font-bold uppercase tracking-tight mb-2">Logitech G Pro X Superlight</h4>
-                <div class="flex items-center justify-between mt-4">
-                    <span class="text-white font-[Orbitron] text-lg">$145.00</span>
-                    <button class="bg-white/5 p-3 rounded-xl hover:bg-[#DFFF00] hover:text-black transition-colors text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    </button>
-                </div>
-            </div>
-
-            <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
-                <div class="relative aspect-square mb-6 overflow-hidden rounded-2xl bg-[#0a0a0a] flex items-center justify-center">
-                    <img src="https://m.media-amazon.com/images/I/61L5S6YmP+L._AC_SL1500_.jpg" class="w-40 h-40 object-contain group-hover:scale-110 transition-transform duration-500">
-                </div>
-                <h4 class="text-white font-bold uppercase tracking-tight mb-2">Keychron Q1 Mechanical</h4>
-                <div class="flex items-center justify-between mt-4">
-                    <span class="text-white font-[Orbitron] text-lg">$179.00</span>
-                    <button class="bg-white/5 p-3 rounded-xl hover:bg-[#DFFF00] hover:text-black transition-colors text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    </button>
-                </div>
-            </div>
+            @endforeach
+            
         </div>
     </div>
 </section>

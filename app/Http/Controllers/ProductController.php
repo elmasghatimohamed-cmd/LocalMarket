@@ -28,6 +28,11 @@ class ProductController extends Controller
         return view('seller.crud.index', compact('products'));
     }
 
+    public function showHomeProducts(){
+        $products = Product::take(6)->get();
+        return view('home', compact('products'));
+    }
+
     public function create()
     {
         $categories = Category::all();
@@ -39,11 +44,10 @@ class ProductController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'status' => 'nullable|string|in:active,inactive',
         ]);
 
         $imagePath = null;
@@ -59,8 +63,6 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
-            'status' => $request->input('status', 'active'),
-            
         ]);
 
         return redirect('myproducts')->with('success', 'Product created');
@@ -93,7 +95,6 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'status' => 'nullable|string|in:active,inactive',
         ]);
 
         $imagePath = $product->image;
@@ -108,7 +109,6 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
-            'status' => $request->input('status', $product->status ?? 'active'),
         ]);
 
         return redirect('myproducts')->with('success', 'Product updated');
