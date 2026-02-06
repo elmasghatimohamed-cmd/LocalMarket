@@ -34,14 +34,13 @@
 @extends('layouts.admin')
 
 @section('content')
-        <div class="min-h-screen w-full bg-darkBg text-white font-sans">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-
-                <div class="mb-12">
-                    <h1 class="text-5xl font-tech tracking-tight uppercase text-white">Dashboard</h1>
-                    <p class="text-white/40 mt-2 uppercase tracking-widest text-xs font-bold">Business Overview & Analytics</p>
-                </div>
+<div class="w-full bg-darkBg text-white font-sans overflow-x-hidden">
+    <div class="w-full px-4 sm:px-8 lg:px-12 py-12">
+        
+        <div class="mb-12">
+            <h1 class="text-5xl font-tech tracking-tight uppercase text-white">Dashboard</h1>
+            <p class="text-white/40 mt-2 uppercase tracking-widest text-xs font-bold">Business Overview & Analytics</p>
+        </div>  
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                     @php

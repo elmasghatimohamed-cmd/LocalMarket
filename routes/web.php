@@ -22,7 +22,7 @@ Route::get('/product/{product}', [ProductController::class, 'show'])->name('prod
 // 2. Authenticated Routes (Jetstream/Sanctum)
 Route::middleware([
     'auth:sanctum',
-    config('jetstream.auth_session'),
+    config('jetstream.auth_session'),   
     'verified',
 ])->group(function () {
 
@@ -55,7 +55,15 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::delete('/myproducts/{product}', [ProductController::class, 'destroy'])->name('seller.products.destroy');
 });
 
-// 5. Admin & Staff Routes (Prefix: /admin)
+
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/product/{product}', [ProductController::class, 'show'])->name('products.show');
+
+Route::middleware(['auth'])->group(function () {
+
+});
+
+
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderator|seller'])->group(function () {
     // This points to the same controller logic for admin prefix
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -66,3 +74,4 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderato
 
 // 6. Order Management
 Route::put('/orders/{order}/status', [OrderItemController::class, 'updateStatus'])->name('orders.updateStatus');
+Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('products.review');
