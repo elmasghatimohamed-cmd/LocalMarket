@@ -31,15 +31,9 @@
             <div class="bg-[#DFFF00]/5 p-3 rounded-xl text-[#DFFF00]"><i class="fas fa-box-archive text-xl"></i></div>
             <div><span class="text-[10px] uppercase tracking-widest text-gray-500 block">Total Items</span><b class="text-xl">{{ $products->count() }}</b></div>
         </div>
-<<<<<<< HEAD
         <div class="bg-[#141414] border border-[#222] p-5 rounded-2xl flex items-center gap-4">
             <div class="bg-[#DFFF00]/5 p-3 rounded-xl text-[#DFFF00]"><i class="fas fa-signal text-xl"></i></div>
             <div><span class="text-[10px] uppercase tracking-widest text-gray-500 block">Status</span><b class="text-xl">Live</b></div>
-=======
-        <div class="stat-card">
-            <i class="fas fa-check-circle"></i>
-            <div><b>{{ $products->where('status', 'active')->count() }}</b><span>Active Items</span></div>
->>>>>>> 2c140ae8550e1d96f6dff8d9a2b2d3bb54591d72
         </div>
         <div class="bg-[#141414] border border-[#222] p-5 rounded-2xl flex items-center gap-4">
             <div class="bg-[#DFFF00]/5 p-3 rounded-xl text-[#DFFF00]"><i class="fas fa-bolt text-xl"></i></div>
