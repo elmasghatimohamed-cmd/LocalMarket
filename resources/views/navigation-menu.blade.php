@@ -71,14 +71,16 @@
                     <x-slot name="content">
                         <div class="bg-[#080808] border border-white/10 py-1 shadow-2xl">
                             <div class="block px-4 py-2 text-[9px] text-gray-500 uppercase font-black tracking-widest">
-                                {{ __('Account Security') }}</div>
+                                {{ __('Account Security') }}
+                            </div>
                             <x-dropdown-link href="{{ route('profile.show') }}"
                                 class="text-white hover:bg-[#DFFF00] hover:text-black"> {{ __('Profile') }}
                             </x-dropdown-link>
                             <div class="border-t border-white/5"></div>
                             <form method="POST" action="{{ route('logout') }}" id="logoutForm">
                                 @csrf
-                                <x-dropdown-link href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
+                                <x-dropdown-link href="#"
+                                    onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
                                     class="text-red-500 hover:bg-red-500 hover:text-white">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
