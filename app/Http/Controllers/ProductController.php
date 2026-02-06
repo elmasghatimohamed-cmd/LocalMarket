@@ -28,6 +28,11 @@ class ProductController extends Controller
         return view('seller.crud.index', compact('products'));
     }
 
+    public function showHomeProducts(){
+        $products = Product::take(6)->get();
+        return view('home', compact('products'));
+    }
+
     public function create()
     {
         $categories = Category::all();

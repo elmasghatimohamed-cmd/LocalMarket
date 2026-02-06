@@ -12,9 +12,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 
 // 1. Public Routes
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [ProductController::class, 'showHomeProducts']);
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('products.show');
