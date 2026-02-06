@@ -15,7 +15,7 @@
             </div>
             <div class="relative hidden md:block">
                 <div class="absolute inset-0 bg-[#DFFF00]/10 blur-[120px] rounded-full"></div>
-                <img src="{{ asset('img/rtx-removebg-preview.png') }}" class="relative z-10 w-full max-w-md h-auto object-contain rotate-12 drop-shadow-2xl">
+                <img src="{{ asset('img/Tech_Art_of_RTX_5060___AI-Powered_PC_Hardware_Render-removebg-preview.png') }}" class="relative z-10 w-full h-full max-h-[500px] object-contain drop-shadow-2xl">
             </div>
         </div>
     </div>
