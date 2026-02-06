@@ -119,6 +119,8 @@ return [
         'two-factor' => 'two-factor',
     ],
 
+    'redirects' => ['logout' => '/'],
+
     /*
     |--------------------------------------------------------------------------
     | Register View Routes
