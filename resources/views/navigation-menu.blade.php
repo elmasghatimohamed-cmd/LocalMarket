@@ -44,7 +44,7 @@
                 </svg>
                 <span
                     class="absolute top-1 right-0 bg-[#DFFF00] text-black text-[9px] font-bold px-1.5 rounded-full min-w-[18px] text-center shadow-lg">
-                    {{ $cartNav->items->sum('quantity') }}
+                    {{ $cartNav?->items->sum('quantity') ?? 0 }}
                 </span>
             </a>
 
@@ -76,9 +76,9 @@
                                 class="text-white hover:bg-[#DFFF00] hover:text-black"> {{ __('Profile') }}
                             </x-dropdown-link>
                             <div class="border-t border-white/5"></div>
-                            <form method="POST" action="{{ route('logout') }}" x-data>
+                            <form method="POST" action="{{ route('logout') }}" id="logoutForm">
                                 @csrf
-                                <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();"
+                                <x-dropdown-link href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
                                     class="text-red-500 hover:bg-red-500 hover:text-white">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
