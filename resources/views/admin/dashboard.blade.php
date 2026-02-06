@@ -145,7 +145,8 @@
             <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-8 mb-12">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-lg font-bold text-slate-900">Recent Orders</h2>
-                    <a href="{{ route('orders.index') }}" class="text-sm text-blue-600 hover:text-blue-700 font-medium">View all →</a>
+                    <a href="{{ route('orders.index') }}" class="text-sm text-blue-600 hover:text-blue-700 font-medium">View
+                        all →</a>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full">
@@ -167,10 +168,10 @@
                                     </td>
                                     <td class="py-3 px-4">
                                         <span class="px-3 py-1 rounded-full text-xs font-semibold inline-block
-                                                @if($order->status === 'on_hold') bg-yellow-100 text-yellow-700
-                                                @elseif($order->status === 'delivered') bg-green-100 text-green-700
-                                                @elseif($order->status === 'paid') bg-blue-100 text-blue-700
-                                                @else bg-slate-100 text-slate-700 @endif">
+                                                        @if($order->status === 'on_hold') bg-yellow-100 text-yellow-700
+                                                        @elseif($order->status === 'delivered') bg-green-100 text-green-700
+                                                        @elseif($order->status === 'paid') bg-blue-100 text-blue-700
+                                                        @else bg-slate-100 text-slate-700 @endif">
                                             {{ ucfirst(str_replace('_', ' ', $order->status)) }}
                                         </span>
                                     </td>
@@ -212,7 +213,8 @@
                                                 class="role-select border border-slate-300 rounded-lg px-3 py-2 text-sm font-medium bg-white hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                                 @foreach($roles as $role)
                                                     <option value="{{ $role }}" {{ $user->hasRole($role) ? 'selected' : '' }}>
-                                                        {{ ucfirst($role) }}</option>
+                                                        {{ ucfirst($role) }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             <button type="submit"

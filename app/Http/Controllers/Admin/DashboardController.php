@@ -30,6 +30,6 @@ class DashboardController extends Controller
             ->with('category')
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recent_orders', 'recent_users', 'product_stats', 'roles'));
+        return view('dashboard', compact('stats', 'recent_orders', 'recent_users', 'product_stats', 'roles'));
     }
 }
