@@ -12,8 +12,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->latest()->paginate(10);
+        $categories = Category::all();
         
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products', 'categories'));
     }
 
     public function sellerProduct(){
@@ -42,6 +43,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'status' => 'nullable|string|in:active,inactive',
         ]);
 
         $imagePath = null;
@@ -57,6 +59,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
+            'status' => $request->input('status', 'active'),
             
         ]);
 
@@ -90,6 +93,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'status' => 'nullable|string|in:active,inactive',
         ]);
 
         $imagePath = $product->image;
@@ -104,6 +108,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
+            'status' => $request->input('status', $product->status ?? 'active'),
         ]);
 
         return redirect('myproducts')->with('success', 'Product updated');

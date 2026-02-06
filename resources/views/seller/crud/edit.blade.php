@@ -94,11 +94,25 @@
                     <p class="text-[9px] text-gray-600 mt-2 uppercase italic tracking-tighter">Current asset will persist if no file is selected.</p>
                 </div>
 
+<<<<<<< HEAD
                 <div class="md:col-span-2">
                     <label class="block text-[10px] uppercase tracking-[0.2em] text-gray-500 font-extrabold mb-3">Product Specifications</label>
                     <textarea name="description" rows="3" 
                         class="w-full bg-[#0A0A0A] border border-[#222] rounded-xl px-4 py-4 text-sm focus:border-[#DFFF00] outline-none transition-all resize-none">{{ $product->description }}</textarea>
                 </div>
+=======
+            <div class="form-group">
+                <label>Status</label>
+                <select name="status" required>
+                    <option value="active" {{ $product->status === 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="inactive" {{ $product->status === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                </select>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Description</label>
+                <textarea name="description" rows="4">{{ $product->description }}</textarea>
+>>>>>>> 2c140ae8550e1d96f6dff8d9a2b2d3bb54591d72
             </div>
         </div>
 

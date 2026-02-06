@@ -3,10 +3,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\RoleSwitcherController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderItemController;
 
 
 
@@ -17,7 +19,7 @@ Route::get('/', function () {
 
 Route::middleware([
     'auth:sanctum',
-    config('jetstream.auth_session'),
+    config('jetstream.auth_session'),   
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
@@ -48,6 +50,8 @@ Route::middleware(['auth', 'role:client|admin'])->group(function () {
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeProduct'])->name('cart.remove');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 });
 Route::middleware(['auth', 'role:seller'])->group(function () {
     Route::get('/seller/crud', [ProductController::class, 'crud'])->name('seller.crud.index');
@@ -81,7 +85,9 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('products.show');
 
 Route::middleware(['auth'])->group(function () {
-
+    Route::post('/products/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
+    Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('products.review');
+    Route::post('/products/{product}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
 });
 
 
@@ -93,3 +99,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderato
 
     Route::resource('categories', CategoryController::class)->except(['show']);
 });
+
+//order routes 
+Route::put('/orders/{order}/status', [OrderItemController::class, 'updateStatus'])->name('orders.updateStatus');
