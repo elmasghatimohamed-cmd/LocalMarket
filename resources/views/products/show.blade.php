@@ -98,7 +98,7 @@
                     <form action="{{ route('cart.add') }}" method="POST" class="space-y-4">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        
+                        @role('client')
                         <div>
                             <label class="block text-xs font-bold text-gray-500 uppercase tracking-[0.2em] mb-3">Quantity</label>
                             <div class="flex items-center bg-[#111] border border-white/10 rounded-full p-2 w-32">
@@ -111,16 +111,19 @@
                                 </button>
                             </div>
                         </div>
+
                         
                         <button type="submit" class="w-full bg-protech hover:bg-white text-black font-bold py-5 rounded-full transition-all flex items-center justify-center gap-3 uppercase tracking-[0.1em] text-sm shadow-[0_10px_30px_rgba(223,255,0,0.15)]">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                             Add to cart
                         </button>
+                        
                     </form>
                     
                     <button class="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-5 rounded-full border border-white/10 transition-all flex items-center justify-center uppercase tracking-[0.1em] text-sm">
                         Buy Now
                     </button>
+                    @endrole
                 </div>
                 
                 <script>
@@ -146,6 +149,7 @@
             <h3 class="text-2xl font-bold mb-12 tracking-tighter uppercase font-[Orbitron]">Customer Feedback</h3>
 
             @auth
+            @role('client')
             <form action="{{ route('products.review', $product) }}" method="POST" class="mb-16 bg-[#111] p-8 rounded-[2rem] border border-white/5">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -163,8 +167,9 @@
                 </div>
                 <button type="submit" class="bg-white text-black px-10 py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-[#DFFF00] transition-colors">Publish Review</button>
             </form>
+            @endrole
             @endauth
-
+            
             <div class="space-y-12">
                 @forelse($product->reviews as $review)
                     <div class="flex gap-6 items-start border-b border-white/5 pb-12">
