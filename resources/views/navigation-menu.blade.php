@@ -5,15 +5,6 @@
             <a href="/" class="font-bold text-xl tracking-tighter text-white uppercase font-[Orbitron]">
                 Protech<span class="text-[#DFFF00]">.</span>
             </a>
-
-            <a href="{{ route('products.index') }}"
-                class="bg-[#DFFF00] hover:bg-[#e6ff33] text-black px-6 py-2.5 rounded-full flex items-center gap-2 transition-all duration-300">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                    </path>
-                </svg>
-                <span class="text-[11px] font-black uppercase tracking-widest">Catalog</span>
-            </a>
         </div>
 
         <nav class="hidden md:flex items-center gap-8">
@@ -36,7 +27,7 @@
         </nav>
 
         <div class="flex items-center gap-6 text-white/80">
-
+            @role('client')
             <a href="{{ route('cart.index') }}" class="relative group p-2 transition-colors hover:text-[#DFFF00]">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -47,49 +38,50 @@
                     {{ $cartNav?->items->sum('quantity') ?? 0 }}
                 </span>
             </a>
-
-            <div class="relative flex items-center">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                            <button
-                                class="flex text-sm border-2 border-white/10 rounded-full focus:border-[#DFFF00] transition p-0.5">
-                                <img class="size-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}"
-                                    alt="{{ Auth::user()->name }}" />
-                            </button>
-                        @else
-                            <button class="hover:text-[#DFFF00] transition-colors flex items-center gap-2">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
-                                <span
-                                    class="text-[11px] font-bold uppercase tracking-widest hidden lg:inline">{{ Auth::user()->name }}</span>
-                            </button>
-                        @endif
-                    </x-slot>
-                    <x-slot name="content">
-                        <div class="bg-[#080808] border border-white/10 py-1 shadow-2xl">
-                            <div class="block px-4 py-2 text-[9px] text-gray-500 uppercase font-black tracking-widest">
-                                {{ __('Account Security') }}
-                            </div>
-                            <x-dropdown-link href="{{ route('profile.show') }}"
-                                class="text-white hover:bg-[#DFFF00] hover:text-black"> {{ __('Profile') }}
-                            </x-dropdown-link>
-                            <div class="border-t border-white/5"></div>
-                            <form method="POST" action="{{ route('logout') }}" id="logoutForm">
-                                @csrf
-                                <x-dropdown-link href="#"
-                                    onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
-                                    class="text-red-500 hover:bg-red-500 hover:text-white">
-                                    {{ __('Log Out') }}
+            @endrole
+            @auth
+                <div class="relative flex items-center">
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                                <button
+                                    class="flex text-sm border-2 border-white/10 rounded-full focus:border-[#DFFF00] transition p-0.5">
+                                    <img class="size-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}"
+                                        alt="{{ Auth::user()->name }}" />
+                                </button>
+                            @else
+                                <button class="hover:text-[#DFFF00] transition-colors flex items-center gap-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                    <span
+                                        class="text-[11px] font-bold uppercase tracking-widest hidden lg:inline">{{ Auth::user()->name }}</span>
+                                </button>
+                            @endif
+                        </x-slot>
+                        <x-slot name="content">
+                            <div class="bg-[#080808] border border-white/10 py-1 shadow-2xl">
+                                <div class="block px-4 py-2 text-[9px] text-gray-500 uppercase font-black tracking-widest">
+                                    {{ __('Account Security') }}
+                                </div>
+                                <x-dropdown-link href="{{ route('profile.show') }}"
+                                    class="text-white hover:bg-[#DFFF00] hover:text-black"> {{ __('Profile') }}
                                 </x-dropdown-link>
-                            </form>
-                        </div>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
+                                <div class="border-t border-white/5"></div>
+                                <form method="POST" action="{{ route('logout') }}" id="logoutForm">
+                                    @csrf
+                                    <x-dropdown-link href="#"
+                                        onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
+                                        class="text-red-500 hover:bg-red-500 hover:text-white">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
+                                </form>
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
+                </div>
+            @endauth
             <button @click="open = ! open" class="md:hidden text-white p-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path :class="{'hidden': open, 'inline-flex': ! open }" stroke-linecap="round"
