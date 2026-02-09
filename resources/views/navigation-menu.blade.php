@@ -23,6 +23,13 @@
                 {{ __('My Products') }}
             </x-nav-link>
             @endrole
+            @role('client')
+<x-nav-link href="{{ route('orders.index') }}" :active="request()->routeIs('seller.crud.index')"
+
+                class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#DFFF00]">
+                {{ __('My Orders') }}
+            </x-nav-link>
+            @endrole
         </nav>
 
         <div class="flex items-center gap-6 text-white/80">

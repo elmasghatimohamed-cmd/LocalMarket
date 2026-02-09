@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
+use App\Models\User;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('admin') ? true : null;
         });
-        
+
         // Share cart with navigation menu on all pages
         View::composer('navigation-menu', function ($view) {
             $cartNav = null;
@@ -37,5 +39,7 @@ class AppServiceProvider extends ServiceProvider
             }
             $view->with('cartNav', $cartNav);
         });
+
+        Cashier::useCustomerModel(User::class);
     }
 }
