@@ -52,20 +52,18 @@
     </div>
 
     <div class="container mx-auto px-6 flex gap-10 pb-20">
-        <aside class="w-64 hidden lg:block space-y-10">
+        <form id="filterForm" class="w-64 hidden lg:block space-y-10">
             <div>
-                <button class="text-white/60 text-sm flex items-center gap-2 mb-6 hover:text-white">
+                <a href="{{ route('products.index') }}" class="text-white/60 text-sm flex items-center gap-2 mb-6 hover:text-white">
                     <span class="text-xl">×</span> Reset filters
-                </button>
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs flex items-center gap-2 border border-white/10">Apple <button>×</button></span>
-                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs flex items-center gap-2 border border-white/10">SMEG <button>×</button></span>
+                </a>
+                <div id="activeFilters" class="flex flex-wrap gap-2">
                 </div>
             </div>
 
             <div class="space-y-6">
                 <div>
-                    <button onclick="toggleDropdown('priceDropdown')" class="flex items-center justify-between border-b border-white/10 pb-4 w-full">
+                    <button type="button" onclick="toggleDropdown('priceDropdown')" class="flex items-center justify-between border-b border-white/10 pb-4 w-full">
                         <span class="font-bold uppercase tracking-widest text-xs">Price</span>
                         <svg id="priceArrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -73,35 +71,36 @@
                         <div class="space-y-3">
                             <div>
                                 <label class="text-[10px] text-white/50 uppercase tracking-wider mb-1 block">Min Price</label>
-                                <input type="number" placeholder="$0" class="w-full bg-darkBg border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-protech focus:outline-none transition">
+                                <input type="number" name="min_price" id="minPrice" placeholder="$0" value="{{ request('min_price') }}" class="w-full bg-darkBg border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-protech focus:outline-none transition">
                             </div>
                             <div>
                                 <label class="text-[10px] text-white/50 uppercase tracking-wider mb-1 block">Max Price</label>
-                                <input type="number" placeholder="$1000" class="w-full bg-darkBg border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-protech focus:outline-none transition">
+                                <input type="number" name="max_price" id="maxPrice" placeholder="$1000" value="{{ request('max_price') }}" class="w-full bg-darkBg border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-protech focus:outline-none transition">
                             </div>
-                            <button class="w-full bg-protech hover:bg-white text-black font-bold py-2 px-4 rounded-lg text-xs uppercase tracking-wider transition-all">
+                            <button type="button" onclick="applyFilters()" class="w-full bg-protech hover:bg-white text-black font-bold py-2 px-4 rounded-lg text-xs uppercase tracking-wider transition-all">
                                 Apply
                             </button>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button onclick="toggleDropdown('categoryDropdown')" class="flex items-center justify-between border-b border-white/10 pb-4 w-full">
+                    <button type="button" onclick="toggleDropdown('categoryDropdown')" class="flex items-center justify-between border-b border-white/10 pb-4 w-full">
                         <span class="font-bold uppercase tracking-widest text-xs">Categories</span>
                         <svg id="categoryArrow" class="w-4 h-4 transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <div id="categoryDropdown" class="mt-4 space-y-3 px-1">
                         @foreach($categories as $category)
                         <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" class="w-5 h-5 accent-protech rounded">
+                            <input type="checkbox" name="categories[]" value="{{ $category->id }}" class="category-filter w-5 h-5 accent-protech rounded" onchange="applyFilters()" @if(in_array($category->id, (array)request('categories', []))) checked @endif>
                             <span class="text-sm text-white/60 group-hover:text-white transition-colors">{{ $category->name }}</span>
                         </label>
                         @endforeach
                     </div>
                 </div>
             </div>
+        </form>
 
-<script>
+        <script>
 function toggleDropdown(id) {
     const dropdown = document.getElementById(id);
     const arrow = document.getElementById(id.replace('Dropdown', 'Arrow'));
@@ -114,8 +113,15 @@ function toggleDropdown(id) {
         arrow.classList.remove('rotate-180');
     }
 }
+
+function applyFilters() {
+    const filterForm = document.getElementById('filterForm');
+    const formData = new FormData(filterForm);
+    const params = new URLSearchParams(formData);
+    
+    window.location.href = '{{ route("products.index") }}?' + params.toString();
+}
 </script>
-        </aside>
 
         <div class="flex-1">
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">

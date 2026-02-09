@@ -10,6 +10,19 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        Category::create(['name' => 'Electronics']);
+        $categories = [
+            'Electronics',
+            'Fashion',
+            'Home',
+            'Sports',
+            'Books',
+            'Toys',
+            'Food & Beverages',
+            'Health & Beauty',
+        ];
+
+        foreach ($categories as $category) {
+            Category::firstOrCreate(['name' => $category]);
+        }
     }
 }

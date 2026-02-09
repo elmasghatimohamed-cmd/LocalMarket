@@ -44,7 +44,7 @@
                 </svg>
                 <span
                     class="absolute top-1 right-0 bg-[#DFFF00] text-black text-[9px] font-bold px-1.5 rounded-full min-w-[18px] text-center shadow-lg">
-                    {{ $cartNav->items->sum('quantity') }}
+                    {{ auth()->user()->cart?->items?->sum('quantity') ?? '0' }}
                 </span>
             </a>
 
