@@ -41,7 +41,7 @@
     </div>
 
     @else
-    <p>Your cart is empty</p>
+    <p>Your </p>
     @endif
 </div>
 @endsection

@@ -24,7 +24,7 @@ class PaymentController extends Controller
                 'price_data' => [
                     'currency' => 'eur',
                     'product_data' => ['name' => 'Commande #' . $order->id],
-                    'unit_amount' => $order->total_price * 100, // Stripe compte en centimes
+                    'unit_amount' => $order->total * 100, // Stripe compte en centimes
                 ],
                 'quantity' => 1,
             ]],
@@ -39,7 +39,7 @@ class PaymentController extends Controller
     public function success(Order $order)
     {
         // 1. Mettre à jour le statut
-        $order->update(['status' => 'Payée']);
+        $order->update(['status' => 'paid', 'payment_status' => 'completed']);
 
         // 2. Déclencher la notification (Email + DB + Real-time)
         $order->user->notify(new OrderStatusUpdated($order));

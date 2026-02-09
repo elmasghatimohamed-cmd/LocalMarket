@@ -9,11 +9,35 @@ use App\Models\Category;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->latest()->paginate(10);
+        $query = Product::with('category');
+
+        // Filter by price range
+        if ($request->has('min_price') && $request->min_price != '') {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->has('max_price') && $request->max_price != '') {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        // Filter by categories
+        if ($request->has('categories') && is_array($request->categories)) {
+            $query->whereIn('category_id', $request->categories);
+        }
+
+        // Sort by rating if requested
+        if ($request->has('sort') && $request->sort == 'rating') {
+            $query->withAvg('reviews', 'rating')->orderByDesc('reviews_avg_rating');
+        } else {
+            $query->latest();
+        }
+
+        $products = $query->paginate(10)->appends($request->query());
+        $categories = Category::all();
         
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products', 'categories'));
     }
 
     public function sellerProduct(){
@@ -27,6 +51,11 @@ class ProductController extends Controller
         return view('seller.crud.index', compact('products'));
     }
 
+    public function showHomeProducts(){
+        $products = Product::take(6)->get();
+        return view('home', compact('products'));
+    }
+
     public function create()
     {
         $categories = Category::all();
@@ -38,7 +67,7 @@ class ProductController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
@@ -57,7 +86,6 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
-            
         ]);
 
         return redirect('myproducts')->with('success', 'Product created');

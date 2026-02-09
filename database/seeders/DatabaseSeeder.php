@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+<<<<<<< HEAD
         // User::factory(10)->create();
 
         // User::factory()->create([
@@ -32,5 +33,20 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::factory(20)->create();
+=======
+        // Run seeders in order
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+            UserSeeder::class,
+            CategorySeeder::class,
+            ProductSeeder::class,
+            CartSeeder::class,
+            CartItemSeeder::class,
+            OrderSeeder::class,
+            OrderItemSeeder::class,
+            ReviewSeeder::class,
+            LikeSeeder::class,
+        ]);
+>>>>>>> 94d49bfb542db2199a5137cb48a7e7af7e55a903
     }
 }
