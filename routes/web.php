@@ -10,13 +10,9 @@ use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\Admin\RoleSwitcherController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Route;
-=======
 
 // 1. Public Routes
 Route::get('/', [ProductController::class, 'showHomeProducts']);
->>>>>>> 94d49bfb542db2199a5137cb48a7e7af7e55a903
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('products.show');
@@ -28,28 +24,6 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-<<<<<<< HEAD
-        return view('dashboard');
-    })->name('dashboard');
-});
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        $user = auth()->user();
-        if ($user && method_exists($user, 'hasRole') && $user->hasRole('client')) {
-            return redirect()->route('products.index');
-        }
-
-        return view('dashboard');
-    })->name('dashboard');
-});
-
-
-=======
     // Main Dashboard - Handled by Controller to provide $stats
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -60,7 +34,6 @@ Route::middleware([
 });
 
 // 3. Client & Admin Shared Routes
->>>>>>> 94d49bfb542db2199a5137cb48a7e7af7e55a903
 Route::middleware(['auth', 'role:client|admin'])->group(function () {
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');

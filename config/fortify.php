@@ -119,10 +119,6 @@ return [
         'two-factor' => 'two-factor',
     ],
 
-<<<<<<< HEAD
-    
-=======
->>>>>>> 94d49bfb542db2199a5137cb48a7e7af7e55a903
     'redirects' => ['logout' => '/'],
 
     /*
