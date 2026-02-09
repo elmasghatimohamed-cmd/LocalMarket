@@ -12,7 +12,6 @@
                 class="text-[10px] font-bold uppercase tracking-[0.2em]">
                 {{ __('Dashboard') }}
             </x-nav-link>
-
             <x-nav-link href="{{ route('products.index') }}" :active="request()->routeIs('products.index')"
                 class="text-[10px] font-bold uppercase tracking-[0.2em]">
                 {{ __('Products') }}
