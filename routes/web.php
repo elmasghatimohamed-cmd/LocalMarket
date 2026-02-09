@@ -10,6 +10,7 @@ use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\Admin\RoleSwitcherController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\CheckoutController;
 
 // 1. Public Routes
 Route::get('/', [ProductController::class, 'showHomeProducts']);
@@ -77,3 +78,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderato
 // 6. Order Management
 Route::put('/orders/{order}/status', [OrderItemController::class, 'updateStatus'])->name('orders.updateStatus');
 Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('products.review');
+
+// 7. Checkout Management
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
