@@ -22,6 +22,7 @@
 <style>
     body { background-color: #080808; color: white; }
     .custom-shadow { shadow-[0_0_20px_rgba(223,255,0,0.1)]; }
+    nav[role="navigation"] p { display: none; }
 </style>
 
 @include('navigation-menu')
@@ -186,11 +187,16 @@ function applyFilters() {
                     </div>
                 </div>
                 @empty
+
                 <div class="col-span-full py-40 text-center opacity-20">
                     <p class="font-tech text-2xl uppercase tracking-[0.5em]">No products found</p>
                 </div>
                 @endforelse
             </div>
+            
+            <div class="flex justify-center mt-12">
+                {{$products->onEachSide(1)->links()}}
+            </div>
         </div>
-    </div>
+    
 </div>

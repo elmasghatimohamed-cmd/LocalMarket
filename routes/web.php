@@ -12,9 +12,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 
 // 1. Public Routes
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [ProductController::class, 'showHomeProducts']);
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('products.show');
@@ -49,6 +47,9 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     // Note: You had two versions of this, merged into one block
     Route::get('/myproducts', [ProductController::class, 'crud'])->name('seller.crud.index');
     Route::get('/myproducts/create', [ProductController::class, 'create'])->name('seller.products.create');
+    Route::get('status',function(){
+        return view('seller.crud.status');
+    });
     Route::post('/myproducts', [ProductController::class, 'store'])->name('seller.products.store');
     Route::get('/myproducts/{product}/edit', [ProductController::class, 'edit'])->name('seller.products.edit');
     Route::put('/myproducts/{product}', [ProductController::class, 'update'])->name('seller.products.update');

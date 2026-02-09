@@ -2,40 +2,7 @@
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
-<header class="bg-[#080808] border-b border-white/5" x-data="{ openProfile: false }">
-    <div class="container mx-auto px-4 py-6 flex flex-wrap items-center justify-between gap-6">
-        <div class="flex items-center gap-3">
-            <div class="relative w-12 h-12 bg-black flex items-center justify-center overflow-hidden border border-[#DFFF00]/20">
-                <div class="absolute inset-0 border-[4px] border-[#DFFF00] rotate-45"></div>
-                <div class="w-2 h-2 rounded-full bg-white z-10 shadow-[0_0_10px_#DFFF00]"></div>
-            </div>
-            <div>
-                <h1 class="text-3xl font-bold tracking-tighter text-white font-[Orbitron]">Protech<span class="text-[#DFFF00]">.</span></h1>
-                <p class="text-[9px] text-gray-500 uppercase tracking-[0.3em] font-medium -mt-1">Future Tech Store</p>
-            </div>
-        </div>
-
-        <div class="flex-1 max-w-md hidden md:block">
-            <div class="relative">
-                <input type="text" placeholder="Search for hardware..."
-                    class="w-full bg-white/5 border border-white/10 text-white rounded-full py-2.5 px-6 focus:outline-none focus:ring-2 focus:ring-[#DFFF00] transition-all placeholder:text-gray-600">
-                <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="flex items-center gap-8">
-            <a href="#" class="relative group">
-                <div class="bg-[#DFFF00] p-3 rounded-xl shadow-lg transition-transform group-hover:scale-110">
-                    <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                </div>
-                <span class="absolute -top-2 -right-2 bg-white text-black text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#080808]">0</span>
-            </a>
-            <button class="bg-white/5 border border-white/10 text-white px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#DFFF00] hover:text-black transition-all">Login</button>
-        </div>
-    </div>
-</header>
+@include('navigation-menu')
 
 <section class="relative bg-[#0a0a0a] overflow-hidden" x-data="{ activeSlide: 1 }">
     <div class="relative h-[500px] flex items-center">
@@ -48,7 +15,7 @@
             </div>
             <div class="relative hidden md:block">
                 <div class="absolute inset-0 bg-[#DFFF00]/10 blur-[120px] rounded-full"></div>
-                <img src="{{ asset('img/rtx-removebg-preview.png') }}" class="relative z-10 w-full max-w-md h-auto object-contain rotate-12 drop-shadow-2xl">
+                <img src="{{ asset('img/Tech_Art_of_RTX_5060___AI-Powered_PC_Hardware_Render-removebg-preview.png') }}" class="relative z-10 w-full h-full max-h-[500px] object-contain drop-shadow-2xl">
             </div>
         </div>
     </div>
@@ -63,64 +30,25 @@
             </div>
             <a href="#" class="text-[#DFFF00] text-[10px] font-black uppercase tracking-widest border-b border-[#DFFF00] pb-1">Browse All Products</a>
         </div>
+        
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
-                <div class="relative aspect-square mb-6 overflow-hidden rounded-2xl bg-[#0a0a0a] flex items-center justify-center">
-                    <img src="https://m.media-amazon.com/images/I/61S9aVn9d6L._AC_SL1500_.jpg" class="w-40 h-40 object-contain group-hover:scale-110 transition-transform duration-500">
+            @foreach($products as $product)
+                <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
+                <div class="relative w-full h-48 mb-6 p-4 bg-white/5 rounded-2xl flex items-center justify-center">
+                    <img src="{{ $product->image_url }}" class="w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-110">
                     <span class="absolute top-4 left-4 bg-[#DFFF00] text-black text-[9px] font-black px-3 py-1 rounded-full uppercase">New</span>
                 </div>
-                <h4 class="text-white font-bold uppercase tracking-tight mb-2">DualSense™ Edge Wireless</h4>
+                <h4 class="text-white font-bold uppercase tracking-tight mb-2">{{ $product->name }}</h4>
                 <div class="flex items-center justify-between mt-4">
-                    <span class="text-white font-[Orbitron] text-lg">$199.99</span>
+                    <span class="text-white font-[Orbitron] text-lg">{{$product->price}}</span>
                     <button class="bg-white/5 p-3 rounded-xl hover:bg-[#DFFF00] hover:text-black transition-colors text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                     </button>
                 </div>
             </div>
-
-            <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
-                <div class="relative aspect-square mb-6 overflow-hidden rounded-2xl bg-[#0a0a0a] flex items-center justify-center">
-                    <img src="https://m.media-amazon.com/images/I/71o8Q5h69ML._AC_SL1500_.jpg" class="w-40 h-40 object-contain group-hover:scale-110 transition-transform duration-500">
-                    <span class="absolute top-4 left-4 bg-red-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase">-15%</span>
-                </div>
-                <h4 class="text-white font-bold uppercase tracking-tight mb-2">SteelSeries Arctis Nova 7</h4>
-                <div class="flex items-center justify-between mt-4">
-                    <div>
-                        <span class="text-white font-[Orbitron] text-lg">$169.00</span>
-                        <span class="text-gray-600 text-xs line-through ml-2 font-[Orbitron]">$189.00</span>
-                    </div>
-                    <button class="bg-white/5 p-3 rounded-xl hover:bg-[#DFFF00] hover:text-black transition-colors text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    </button>
-                </div>
-            </div>
-
-            <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
-                <div class="relative aspect-square mb-6 overflow-hidden rounded-2xl bg-[#0a0a0a] flex items-center justify-center">
-                    <img src="https://m.media-amazon.com/images/I/51H9V6UvH+L._AC_SL1200_.jpg" class="w-40 h-40 object-contain group-hover:scale-110 transition-transform duration-500">
-                </div>
-                <h4 class="text-white font-bold uppercase tracking-tight mb-2">Logitech G Pro X Superlight</h4>
-                <div class="flex items-center justify-between mt-4">
-                    <span class="text-white font-[Orbitron] text-lg">$145.00</span>
-                    <button class="bg-white/5 p-3 rounded-xl hover:bg-[#DFFF00] hover:text-black transition-colors text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    </button>
-                </div>
-            </div>
-
-            <div class="group bg-[#111] border border-white/5 rounded-[2rem] p-6 hover:border-[#DFFF00]/30 transition-all">
-                <div class="relative aspect-square mb-6 overflow-hidden rounded-2xl bg-[#0a0a0a] flex items-center justify-center">
-                    <img src="https://m.media-amazon.com/images/I/61L5S6YmP+L._AC_SL1500_.jpg" class="w-40 h-40 object-contain group-hover:scale-110 transition-transform duration-500">
-                </div>
-                <h4 class="text-white font-bold uppercase tracking-tight mb-2">Keychron Q1 Mechanical</h4>
-                <div class="flex items-center justify-between mt-4">
-                    <span class="text-white font-[Orbitron] text-lg">$179.00</span>
-                    <button class="bg-white/5 p-3 rounded-xl hover:bg-[#DFFF00] hover:text-black transition-colors text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    </button>
-                </div>
-            </div>
+            @endforeach
+            
         </div>
     </div>
 </section>
