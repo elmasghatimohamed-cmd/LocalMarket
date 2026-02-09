@@ -8,28 +8,28 @@ use Illuminate\Http\Request;
 
 class RoleSwitcherController extends Controller
 {
+    // Dans RoleSwitcherController.php
     public function index()
     {
-        $users = User::with('roles')->paginate(20);
+        $recent_users = User::with('roles')->get();
         $roles = \Spatie\Permission\Models\Role::pluck('name');
 
-        return view('admin.role_switcher', compact('users', 'roles'));
+        return view('admin.role_switcher', compact('recent_users', 'roles'));
     }
 
     public function update(Request $request, User $user)
     {
-        $request->validate([ 'role' => 'required|string' ]);
+        $request->validate(['role' => 'required|string']);
 
         $user->syncRoles([$request->input('role')]);
 
-        if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
+        if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'status' => 'Rôle mis à jour.',
-                'user_id' => $user->id,
                 'role' => $request->input('role'),
             ]);
         }
 
-        return redirect()->route('admin.role_switcher')->with('status', 'Rôle mis à jour.');
+        return back()->with('status', 'Rôle mis à jour.');
     }
 }

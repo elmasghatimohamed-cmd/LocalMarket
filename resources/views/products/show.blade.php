@@ -93,7 +93,7 @@
                         </li>
                     </ul>
                 </div>
-
+                @role('client')
                 <div class="space-y-4">
                     <form action="{{ route('cart.add') }}" method="POST" class="space-y-4">
                         @csrf
@@ -125,7 +125,7 @@
                     </button>
                     @endrole
                 </div>
-                
+                @endrole
                 <script>
                     function increaseQty() {
                         const input = document.getElementById('quantity');
@@ -144,7 +144,7 @@
                 </script>
             </div>
         </div>
-
+        @role('client')
         <div class="mt-32 max-w-4xl border-t border-white/5 pt-16">
             <h3 class="text-2xl font-bold mb-12 tracking-tighter uppercase font-[Orbitron]">Customer Feedback</h3>
 
@@ -192,5 +192,6 @@
                 @endforelse
             </div>
         </div>
+        @endrole
     </div>
 </div>

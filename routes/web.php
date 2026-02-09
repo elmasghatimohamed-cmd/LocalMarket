@@ -20,8 +20,9 @@ Route::get('/product/{product}', [ProductController::class, 'show'])->name('prod
 // 2. Authenticated Routes (Jetstream/Sanctum)
 Route::middleware([
     'auth:sanctum',
-    config('jetstream.auth_session'),   
+    config('jetstream.auth_session'),
     'verified',
+    'role:seller|admin|moderator'
 ])->group(function () {
 
     // Main Dashboard - Handled by Controller to provide $stats
