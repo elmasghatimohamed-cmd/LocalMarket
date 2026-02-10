@@ -78,6 +78,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderato
 // 6. Order Management
 Route::put('/orders/{order}/status', [OrderItemController::class, 'updateStatus'])->name('orders.updateStatus');
 Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('products.review');
+Route::post('/products/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
 
 // 7. Checkout Management
 Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
