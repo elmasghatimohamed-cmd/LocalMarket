@@ -78,6 +78,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderato
 // 6. Order Management
 Route::put('/orders/{order}/status', [OrderItemController::class, 'updateStatus'])->name('orders.updateStatus');
 Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('products.review');
+
+// Moderator routes
+Route::middleware(['auth', 'role:moderator|admin'])->group(function () {
+    Route::post('/reviews/{review}/toggle', [ReviewController::class, 'toggleVisibility'])->name('reviews.toggle');
+    Route::post('/products/{product}/toggle', [ProductController::class, 'toggleStatus'])->name('products.toggle');
+});
 Route::post('/products/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
 
 Route::middleware(['auth'])->group(function () {

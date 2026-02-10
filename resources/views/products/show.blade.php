@@ -64,6 +64,27 @@
             </div>
 
             <div class="w-full lg:w-2/5">
+                @role('moderator|admin')
+                <form action="{{ route('products.toggle', $product) }}" method="POST" class="mb-4">
+                    @csrf
+                    <button type="submit" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-4 py-2 rounded-full text-xs font-bold uppercase transition-all">
+                        {{ $product->is_active ?? 1 ? 'Suspend Product' : 'Activate Product' }}
+                    </button>
+                </form>
+                @endrole
+
+                @if(!($product->is_active ?? 1))
+                <div class="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-6">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        <div>
+                            <h3 class="text-red-500 font-bold text-sm uppercase tracking-wider">Product Suspended</h3>
+                            <p class="text-red-400/80 text-xs mt-1">This product is currently unavailable for purchase</p>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                
                 <span class="text-gray-500 text-sm uppercase tracking-[0.2em] mb-2 block">{{ $product->brand ?? 'Bose' }}</span>
                 <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tighter leading-tight uppercase font-[Orbitron]">
                     {{ $product->name }}
@@ -99,6 +120,7 @@
                     </ul>
                 </div>
                 @role('client')
+                @if($product->is_active ?? 1)
                 <div class="space-y-4">
                     <form action="{{ route('cart.add') }}" method="POST" class="space-y-4">
                         @csrf
@@ -130,6 +152,7 @@
                     </button>
                     @endrole
                 </div>
+                @endif
                 @endrole
                 <script>
                     function increaseQty() {
@@ -149,7 +172,7 @@
                 </script>
             </div>
         </div>
-        @role('client')
+        @role('client|moderator|admin')
         <div class="mt-32 max-w-4xl border-t border-white/5 pt-16">
             <h3 class="text-2xl font-bold mb-12 tracking-tighter uppercase font-[Orbitron]">Customer Feedback</h3>
 
@@ -184,8 +207,18 @@
                         <div class="flex-1">
                             <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3">
                                 <span class="font-bold text-lg tracking-tight uppercase">{{ $review->user->name }}</span>
-                                <div class="flex gap-1 text-[#DFFF00] text-xs">
-                                    {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                                <div class="flex items-center gap-4">
+                                    <div class="flex gap-1 text-[#DFFF00] text-xs">
+                                        {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
+                                    </div>
+                                    @role('moderator|admin')
+                                    <form action="{{ route('reviews.toggle', $review) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase transition-all">
+                                            {{ $review->is_visible ? 'Suspend' : 'Activate' }}
+                                        </button>
+                                    </form>
+                                    @endrole
                                 </div>
                             </div>
                             <p class="text-gray-400 text-sm leading-relaxed mb-4">{{ $review->comment }}</p>
