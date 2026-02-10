@@ -24,4 +24,10 @@ class ReviewController extends Controller
 
         return back()->with('success', 'thanks for rating');
     }
+
+    public function toggleVisibility(Review $review)
+    {
+        $review->update(['is_visible' => !$review->is_visible]);
+        return back()->with('success', 'Review visibility updated');
+    }
 }

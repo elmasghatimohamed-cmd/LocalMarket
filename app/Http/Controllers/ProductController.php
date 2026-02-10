@@ -147,5 +147,10 @@ class ProductController extends Controller
 
         return back()->with('success', 'Product deleted');
     }
+
+    public function toggleStatus(Product $product)
+    {
+        $product->update(['is_active' => !$product->is_active]);
+        return back()->with('success', 'Product status updated');
+    }
 }
-    
