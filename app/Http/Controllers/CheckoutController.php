@@ -149,10 +149,8 @@ class CheckoutController extends Controller
     {
         $user = Auth::user();
 
-        // On récupère le panier avec les produits pour calculer le prix
         $cart = Cart::where('user_id', $user->id)->with('items.product')->first();
 
-        // Si le panier est vide, on redirige
         if (!$cart || $cart->items->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Votre panier est vide.');
         }

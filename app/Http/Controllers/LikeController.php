@@ -9,13 +9,21 @@ use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
+
+    public function index()
+    {
+        $user = Auth::user();
+        $favorites = $user->likedProducts()->latest()->paginate(12);
+
+        return view('favorites.index', compact('favorites'));
+    }
     public function toggle(Product $product)
     {
         $user = Auth::user();
-        
+
         $like = Like::where('user_id', $user->id)
-                    ->where('product_id', $product->id)
-                    ->first();
+            ->where('product_id', $product->id)
+            ->first();
 
         if ($like) {
             $like->delete();

@@ -31,6 +31,11 @@
                 class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#DFFF00]">
                 {{ __('My Orders') }}
             </x-nav-link>
+            <x-nav-link href="{{ route('favorites.index') }}" :active="request()->routeIs('seller.crud.index')"
+
+                class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#DFFF00]">
+                {{ __('My Favorites') }}
+            </x-nav-link>
             @endrole
         </nav>
 

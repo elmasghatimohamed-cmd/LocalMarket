@@ -85,6 +85,9 @@ Route::middleware(['auth', 'role:moderator|admin'])->group(function () {
     Route::post('/products/{product}/toggle', [ProductController::class, 'toggleStatus'])->name('products.toggle');
 });
 Route::post('/products/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/favorites', [LikeController::class, 'index'])->name('favorites.index');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/myorders', [OrderController::class, 'index'])->name('orders.index');
