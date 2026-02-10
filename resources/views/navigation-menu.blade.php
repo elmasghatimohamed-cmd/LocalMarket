@@ -136,6 +136,8 @@
                     </x-slot>
                 </x-dropdown>
             </div>
+              @if (Route::has('login'))
+
             @auth
                 <div class="relative flex items-center">
                     <x-dropdown align="right" width="48">
@@ -177,8 +179,21 @@
                             </div>
                         </x-slot>
                     </x-dropdown>
+
+
+
+                    @else
+                    <div class="flex items-center gap-4">
+                        <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-[#f3b110]">Log In</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="bg-black text-white text-xs px-5 py-2 rounded-full font-bold hover:bg-[#f3b110] transition-all">Register</a>
+                        @endif
+                    </div>
+
+
                 </div>
             @endauth
+            @endif
             <button @click="open = ! open" class="md:hidden text-white p-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path :class="{'hidden': open, 'inline-flex': ! open }" stroke-linecap="round"
