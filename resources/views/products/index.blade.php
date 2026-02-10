@@ -38,12 +38,12 @@
                 <h1 class="text-5xl font-tech tracking-tight uppercase">Best sellers</h1>
             </div>
             
-            <div class="flex gap-4">
-                <div class="flex bg-white/5 p-1 rounded-full border border-white/10">
+            <div class="flex gap-4"> 
+                <!-- <div class="flex bg-white/5 p-1 rounded-full border border-white/10">
                     <button class="px-6 py-2 rounded-full bg-protech text-black font-bold text-sm">All items</button>
                     <button class="px-6 py-2 rounded-full text-white/60 text-sm hover:text-white">Smartphones</button>
                     <button class="px-6 py-2 rounded-full text-white/60 text-sm hover:text-white">Kitchen</button>
-                </div>
+                </div> -->
                 <button class="flex items-center gap-2 bg-white/5 border border-white/10 px-6 py-2 rounded-full text-sm font-medium">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 4h18M6 12h12m-7 8h2"></path></svg>
                     Top rated
@@ -128,9 +128,9 @@ function applyFilters() {
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 @forelse($products as $product)
                 <div class="group bg-cardBg rounded-[32px] p-6 border border-white/5 hover:border-protech/50 transition-all duration-500 relative overflow-hidden">
-                    <div class="absolute top-6 left-6 z-10">
+                    <!-- <div class="absolute top-6 left-6 z-10">
                         <span class="bg-protech text-black text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-tighter">Sale 15%</span>
-                    </div>
+                    </div> -->
                     
                     <button class="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
@@ -143,7 +143,7 @@ function applyFilters() {
 
                     <div class="space-y-4">
                         <div class="flex items-center justify-between text-white/40 text-[10px] font-bold uppercase tracking-widest">
-                            <span>{{ $product->brand ?? 'SMEG' }}</span>
+                            <!-- <span>{{ $product->brand ?? 'SMEG' }}</span> -->
                             <div class="flex items-center gap-1">
                                 <span class="text-protech text-sm">★</span>
                                 <span class="text-white">{{ number_format($product->reviews_avg_rating ?? 5.0, 1) }}</span>
@@ -153,7 +153,7 @@ function applyFilters() {
                         <div>
                             <div class="flex items-baseline gap-3 mb-1">
                                 <span class="text-2xl font-tech">${{ number_format($product->price, 2) }}</span>
-                                <span class="text-white/20 line-through text-sm font-tech">${{ number_format($product->price * 1.2, 2) }}</span>
+                                <!-- <span class="text-white/20 line-through text-sm font-tech">${{ number_format($product->price * 1.2, 2) }}</span> -->
                             </div>
                             <h3 class="text-white/70 font-medium group-hover:text-white transition-colors leading-tight truncate">
                                 {{ $product->name }}
