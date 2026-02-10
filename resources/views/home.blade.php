@@ -28,7 +28,7 @@
                 <h3 class="text-white text-3xl font-bold font-[Orbitron] uppercase">Hardware Store</h3>
                 <p class="text-gray-500 text-xs uppercase tracking-widest mt-2">Latest transmissions in stock</p>
             </div>
-            <a href="#" class="text-[#DFFF00] text-[10px] font-black uppercase tracking-widest border-b border-[#DFFF00] pb-1">Browse All Products</a>
+            <a href="{{ route('register')}}" class="text-[#DFFF00] text-[10px] font-black uppercase tracking-widest border-b border-[#DFFF00] pb-1">Browse All Products</a>
         </div>
         
 
