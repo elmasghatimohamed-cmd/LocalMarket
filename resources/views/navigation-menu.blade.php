@@ -191,9 +191,9 @@
 
                     @else
                     <div class="flex items-center gap-4">
-                        <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-[#f3b110]">Log In</a>
+                        <a href="{{ route('login') }}" class="text-sm font-bold text-[#DFFF00] ">Log In</a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="bg-black text-white text-xs px-5 py-2 rounded-full font-bold hover:bg-[#f3b110] transition-all">Register</a>
+                            <a href="{{ route('register') }}" class="bg-black text-white hover:text-black text-xs px-5 py-2 rounded-full font-bold hover:bg-[#DFFF00] transition-all">Register</a>
                         @endif
                     </div>
 
