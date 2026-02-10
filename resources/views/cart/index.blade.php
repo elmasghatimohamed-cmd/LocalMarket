@@ -143,7 +143,7 @@
                             </svg>
                         </button>
 
-                        <button onclick="window.location.href= '{{ route('checkout.cod') }}'" class="w-full bg-black hover:bg-white text-white font-tech text-sm py-5 rounded-2xl mt-10 transition-all shadow-[0_10px_20px_rgba(223,255,0,0.15)] active:scale-[0.98] flex items-center justify-center gap-3 group">
+                        <button onclick="window.location.href= '{{ route('checkout.cod') }}'" class="w-full bg-black hover:bg-white text-white hover:text-black font-tech text-sm py-5 rounded-2xl mt-10 transition-all shadow-[0_10px_20px_rgba(223,255,0,0.15)] active:scale-[0.98] flex items-center justify-center gap-3 group">
                             CASH ON DELIVERY
                             <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
