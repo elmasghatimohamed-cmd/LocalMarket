@@ -93,3 +93,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::post('/checkout/process', [CheckoutController::class, 'store'])->name('checkout.store');
 });
+
+Route::get('/checkout/cashondelivery', [CheckoutController::class, 'showCod'])->name('checkout.cod');
+Route::post('/checkout/cashondelivery', [CheckoutController::class, 'storeCod'])->name('checkout.cod');
