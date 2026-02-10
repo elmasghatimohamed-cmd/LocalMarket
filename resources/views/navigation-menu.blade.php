@@ -8,10 +8,12 @@
         </div>
 
         <nav class="hidden md:flex items-center gap-8">
+            @role('seller|admin|moderator')
             <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')"
-                class="text-[10px] font-bold uppercase tracking-[0.2em]">
+                class="text-[10px] font-bold uppercase tracking-[0.2em] ">
                 {{ __('Dashboard') }}
             </x-nav-link>
+            @endrole
             <x-nav-link href="{{ route('products.index') }}" :active="request()->routeIs('products.index')"
                 class="text-[10px] font-bold uppercase tracking-[0.2em]">
                 {{ __('Products') }}
