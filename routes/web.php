@@ -88,4 +88,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('orders.updateStatus');
 });
 // 7. Checkout Management
-Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::post('/checkout/process', [CheckoutController::class, 'store'])->name('checkout.store');
+});

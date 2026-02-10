@@ -24,7 +24,7 @@
             </x-nav-link>
             @endrole
             @role('client')
-<x-nav-link href="{{ route('orders.index') }}" :active="request()->routeIs('seller.crud.index')"
+            <x-nav-link href="{{ route('orders.index') }}" :active="request()->routeIs('seller.crud.index')"
 
                 class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#DFFF00]">
                 {{ __('My Orders') }}
@@ -41,7 +41,7 @@
                 </svg>
                 <span
                     class="absolute top-1 right-0 bg-[#DFFF00] text-black text-[9px] font-bold px-1.5 rounded-full min-w-[18px] text-center shadow-lg">
-                    {{ $cartNav?->items->sum('quantity') ?? 0 }}
+                    {{ $cartNav?->items->count() ?? 0 }}
                 </span>
             </a>
             @endrole
