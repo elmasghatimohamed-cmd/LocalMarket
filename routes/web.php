@@ -78,8 +78,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderato
 // 6. Order Management
 Route::put('/orders/{order}/status', [OrderItemController::class, 'updateStatus'])->name('orders.updateStatus');
 Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('products.review');
-Route::middleware(['auth'])->group(function () {
+Route::post('/products/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
 
+Route::middleware(['auth'])->group(function () {
     Route::get('/myorders', [OrderController::class, 'index'])->name('orders.index');
 
     Route::get('/my-orders/{order}', [OrderController::class, 'show'])->name('orders.show');
