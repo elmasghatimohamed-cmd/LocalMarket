@@ -34,14 +34,14 @@ class ProductController extends Controller
             $query->latest();
         }
 
-        $products = $query->paginate(10)->appends($request->query());
+        $products = $query->paginate(12)->appends($request->query());
         $categories = Category::all();
         
         return view('products.index', compact('products', 'categories'));
     }
 
     public function sellerProduct(){
-        $products = Product::where('seller_id', Auth::id())->paginate(10);
+        $products = Product::where('seller_id', Auth::id())->paginate(12);
         return view('seller.crud.index', compact('products'));
     }
 
