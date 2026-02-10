@@ -49,7 +49,7 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     // Note: You had two versions of this, merged into one block
     Route::get('/myproducts', [ProductController::class, 'crud'])->name('seller.crud.index');
     Route::get('/myproducts/create', [ProductController::class, 'create'])->name('seller.products.create');
-    Route::get('status',function(){
+    Route::get('status', function () {
         return view('seller.crud.status');
     });
     Route::post('/myproducts', [ProductController::class, 'store'])->name('seller.products.store');
@@ -80,5 +80,16 @@ Route::put('/orders/{order}/status', [OrderItemController::class, 'updateStatus'
 Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('products.review');
 Route::post('/products/{product}/like', [LikeController::class, 'toggle'])->name('products.like');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/myorders', [OrderController::class, 'index'])->name('orders.index');
+
+    Route::get('/my-orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
+    Route::post('/orders/{order}/update-status', [OrderItemController::class, 'updateStatus'])
+        ->name('orders.updateStatus');
+});
 // 7. Checkout Management
-Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::post('/checkout/process', [CheckoutController::class, 'store'])->name('checkout.store');
+});
