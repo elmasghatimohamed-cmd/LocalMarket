@@ -20,9 +20,18 @@
 </script>
 
 <style>
-    body { background-color: #080808; color: white; }
-    .custom-shadow { shadow-[0_0_20px_rgba(223,255,0,0.1)]; }
-    nav[role="navigation"] p { display: none; }
+    body {
+        background-color: #080808;
+        color: white;
+    }
+
+    .custom-shadow {
+        shadow-[0_0_20px_rgba(223, 255, 0, 0.1)];
+    }
+
+    nav[role="navigation"] p {
+        display: none;
+    }
 </style>
 
 @include('navigation-menu')
@@ -37,15 +46,17 @@
                 </nav>
                 <h1 class="text-5xl font-tech tracking-tight uppercase">Best sellers</h1>
             </div>
-            
-            <div class="flex gap-4"> 
+
+            <div class="flex gap-4">
                 <!-- <div class="flex bg-white/5 p-1 rounded-full border border-white/10">
                     <button class="px-6 py-2 rounded-full bg-protech text-black font-bold text-sm">All items</button>
                     <button class="px-6 py-2 rounded-full text-white/60 text-sm hover:text-white">Smartphones</button>
                     <button class="px-6 py-2 rounded-full text-white/60 text-sm hover:text-white">Kitchen</button>
                 </div> -->
                 <button class="flex items-center gap-2 bg-white/5 border border-white/10 px-6 py-2 rounded-full text-sm font-medium">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 4h18M6 12h12m-7 8h2"></path></svg>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 4h18M6 12h12m-7 8h2"></path>
+                    </svg>
                     Top rated
                 </button>
             </div>
@@ -66,7 +77,9 @@
                 <div>
                     <button type="button" onclick="toggleDropdown('priceDropdown')" class="flex items-center justify-between border-b border-white/10 pb-4 w-full">
                         <span class="font-bold uppercase tracking-widest text-xs">Price</span>
-                        <svg id="priceArrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        <svg id="priceArrow" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
                     <div id="priceDropdown" class="hidden mt-4 space-y-3 px-1">
                         <div class="space-y-3">
@@ -87,7 +100,9 @@
                 <div>
                     <button type="button" onclick="toggleDropdown('categoryDropdown')" class="flex items-center justify-between border-b border-white/10 pb-4 w-full">
                         <span class="font-bold uppercase tracking-widest text-xs">Categories</span>
-                        <svg id="categoryArrow" class="w-4 h-4 transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                        <svg id="categoryArrow" class="w-4 h-4 transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
                     <div id="categoryDropdown" class="mt-4 space-y-3 px-1">
                         @foreach($categories as $category)
@@ -102,27 +117,27 @@
         </form>
 
         <script>
-function toggleDropdown(id) {
-    const dropdown = document.getElementById(id);
-    const arrow = document.getElementById(id.replace('Dropdown', 'Arrow'));
-    
-    if (dropdown.classList.contains('hidden')) {
-        dropdown.classList.remove('hidden');
-        arrow.classList.add('rotate-180');
-    } else {
-        dropdown.classList.add('hidden');
-        arrow.classList.remove('rotate-180');
-    }
-}
+            function toggleDropdown(id) {
+                const dropdown = document.getElementById(id);
+                const arrow = document.getElementById(id.replace('Dropdown', 'Arrow'));
 
-function applyFilters() {
-    const filterForm = document.getElementById('filterForm');
-    const formData = new FormData(filterForm);
-    const params = new URLSearchParams(formData);
-    
-    window.location.href = '{{ route("products.index") }}?' + params.toString();
-}
-</script>
+                if (dropdown.classList.contains('hidden')) {
+                    dropdown.classList.remove('hidden');
+                    arrow.classList.add('rotate-180');
+                } else {
+                    dropdown.classList.add('hidden');
+                    arrow.classList.remove('rotate-180');
+                }
+            }
+
+            function applyFilters() {
+                const filterForm = document.getElementById('filterForm');
+                const formData = new FormData(filterForm);
+                const params = new URLSearchParams(formData);
+
+                window.location.href = '{{ route("products.index") }}?' + params.toString();
+            }
+        </script>
 
         <div class="flex-1">
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -131,14 +146,18 @@ function applyFilters() {
                     <!-- <div class="absolute top-6 left-6 z-10">
                         <span class="bg-protech text-black text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-tighter">Sale 15%</span>
                     </div> -->
-                    
-                    <button class="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                    </button>
+                    <form action="{{ route('products.like', $product) }}" method="POST">
+                        @csrf
+                        <button class="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all text-white">
 
+                            <svg class="w-5 h-5 {{ auth() && $product->isLikedByUser() ? 'text-red-500 fill-current' : 'text-gray-300 group-hover:text-red-400' }} text-white " fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </button>
+                    </form>
                     <div class="relative w-full h-48 mb-8 p-4 bg-white/5 rounded-2xl">
-                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" 
-                             class="w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-110">
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
+                            class="w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-110">
                     </div>
 
                     <div class="space-y-4">
@@ -149,7 +168,7 @@ function applyFilters() {
                                 <span class="text-white">{{ number_format($product->reviews_avg_rating ?? 5.0, 1) }}</span>
                             </div>
                         </div>
-                        
+
                         <div>
                             <div class="flex items-baseline gap-3 mb-1">
                                 <span class="text-2xl font-tech">${{ number_format($product->price, 2) }}</span>
@@ -164,23 +183,28 @@ function applyFilters() {
                                 <span class="text-[11px] font-bold text-protech bg-protech/10 px-2 py-1 rounded-full border border-protech/20">{{ $product->stock }} units</span>
                             </div>
                         </div>
-                        
+
                         <div class="space-y-3">
                             <form action="{{ route('cart.add') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <input type="hidden" name="quantity" value="1">
-                                
+
                                 @role('client')
                                 <button type="submit" class="w-full bg-protech hover:bg-white text-black font-bold py-3 px-4 rounded-full transition-all duration-300 flex items-center justify-center gap-2 group">
-                                    <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                    <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                    </svg>
                                     ADD TO CART
                                 </button>
                                 @endrole
                             </form>
-                            
+
                             <a href="{{ route('products.show', $product) }}" class="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-3 px-4 rounded-full transition-all duration-300 flex items-center justify-center gap-2 group border border-white/10 hover:border-white/20">
-                                <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
                                 VIEW PRODUCT
                             </a>
                         </div>
@@ -193,10 +217,10 @@ function applyFilters() {
                 </div>
                 @endforelse
             </div>
-            
+
             <div class="flex justify-center mt-12">
                 {{$products->onEachSide(1)->links()}}
             </div>
         </div>
-    
-</div>
+
+    </div>
