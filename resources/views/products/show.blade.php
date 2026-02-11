@@ -50,7 +50,7 @@
                     <button class="absolute top-8 right-8 bg-white/5 p-3 rounded-full hover:bg-white/10 transition border border-white/10">
                         <svg class="w-5 h-5   {{ auth()->user() && $product->isLikedByUser() ? 'text-red-500 fill-current' : 'text-gray-300 group-hover:text-red-400' }}  text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                     </button>
-                    
+
                     </form>
 
                     <img src="{{ $product->image_url }}" class="w-full max-w-md h-auto object-contain transform hover:scale-105 transition duration-700">
@@ -161,8 +161,11 @@
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 mb-3 uppercase tracking-[0.2em]">Rating</label>
                         <select name="rating" class="w-full bg-[#080808] border border-white/10 rounded-xl p-4 text-[#DFFF00] font-bold focus:border-[#DFFF00] outline-none appearance-none">
-                            <option value="5">⭐⭐⭐⭐⭐ MASTERPIECE</option>
-                            <option value="4">⭐⭐⭐⭐ EXCELLENT</option>
+                            <option value="5">⭐⭐⭐⭐⭐ Masterpiece</option>
+                            <option value="4">⭐⭐⭐⭐ Excellent</option>
+                            <option value="3">⭐⭐⭐ Good</option>
+                            <option value="2">⭐⭐ Bad</option>
+                            <option value="1">⭐ Scam</option>
                             </select>
                     </div>
                 </div>
