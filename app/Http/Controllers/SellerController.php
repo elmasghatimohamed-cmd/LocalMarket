@@ -4,13 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use Illuminate\Container\Attributes\Auth;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\OrderStatusChanged;
+
 class SellerController extends Controller
 {
     public function index()
     {
         $products = Product::where('seller_id', Auth::id())->get();
         return view('seller.crud.index', compact('products'));
+    }
+
+    public function orders()
+    {
+        $orders = Order::whereHas('items.product', function($query) {
+            $query->where('seller_id', Auth::id());
+        })->with(['user', 'items.product'])->latest()->get();
+
+        return view('seller.crud.status', compact('orders'));
+    }
+
+    public function updateOrderStatus(Request $request, Order $order)
+    {
+        $request->validate([
+            'status' => 'required|in:on_hold,paid,delivered'
+        ]);
+
+        $order->update(['status' => $request->status]);
+        $order->user->notify(new OrderStatusChanged($order));
+
+        return back()->with('success', 'Statut mis à jour');
     }
 
     public function create()

@@ -49,9 +49,8 @@ Route::middleware(['auth', 'role:seller'])->group(function () {
     // Note: You had two versions of this, merged into one block
     Route::get('/myproducts', [ProductController::class, 'crud'])->name('seller.crud.index');
     Route::get('/myproducts/create', [ProductController::class, 'create'])->name('seller.products.create');
-    Route::get('status', function () {
-        return view('seller.crud.status');
-    });
+    Route::get('status', [\App\Http\Controllers\SellerController::class, 'orders'])->name('seller.orders');
+    Route::post('/orders/{order}/status', [\App\Http\Controllers\SellerController::class, 'updateOrderStatus'])->name('seller.orders.updateStatus');
     Route::post('/myproducts', [ProductController::class, 'store'])->name('seller.products.store');
     Route::get('/myproducts/{product}/edit', [ProductController::class, 'edit'])->name('seller.products.edit');
     Route::put('/myproducts/{product}', [ProductController::class, 'update'])->name('seller.products.update');
