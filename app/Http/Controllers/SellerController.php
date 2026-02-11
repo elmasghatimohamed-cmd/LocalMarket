@@ -18,9 +18,7 @@ class SellerController extends Controller
 
     public function orders()
     {
-        $orders = Order::whereHas('items.product', function($query) {
-            $query->where('seller_id', Auth::id());
-        })->with(['user', 'items.product'])->latest()->get();
+        $orders = Order::with(['user', 'items.product'])->latest()->get();
 
         return view('seller.crud.status', compact('orders'));
     }
