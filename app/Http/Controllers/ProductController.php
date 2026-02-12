@@ -52,9 +52,8 @@ class ProductController extends Controller
         return view('seller.crud.index', compact('products'));
     }
 
-    public function showHomeProducts()
-    {
-        $products = Product::take(6)->get()->with('is_active = 1');
+    public function showHomeProducts(){
+        $products = Product::where('is_active', 1)->take(6)->get();
         return view('home', compact('products'));
     }
 
@@ -158,5 +157,11 @@ class ProductController extends Controller
     {
         $product->update(['is_active' => !$product->is_active]);
         return back()->with('success', 'Product status updated');
+    }
+
+
+    public function suspendProducts(){
+        $products = Product::with('category')->where('is_active',0);
+        return view('mod.suspend.index', compact('products'));
     }
 }
