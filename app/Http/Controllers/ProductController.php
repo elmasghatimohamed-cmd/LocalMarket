@@ -36,11 +36,12 @@ class ProductController extends Controller
 
         $products = $query->paginate(12)->appends($request->query());
         $categories = Category::all();
-        
+
         return view('products.index', compact('products', 'categories'));
     }
 
-    public function sellerProduct(){
+    public function sellerProduct()
+    {
         $products = Product::where('seller_id', Auth::id())->paginate(12);
         return view('seller.crud.index', compact('products'));
     }
@@ -94,14 +95,18 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        $product->load(['reviews' => function($query) {
-            $query->where('is_visible', true)->latest();
-        }, 'reviews.user']);
+        $product->load([
+            'reviews' => function ($query) {
+                $query->where('is_visible', true)->latest();
+            },
+            'reviews.user'
+        ]);
 
         return view('products.show', compact('product'));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $product = Product::with('category')->where('id', $id)->where('seller_id', Auth::id())->firstOrFail();
         $categories = Category::all();
         return view('seller.crud.edit', compact('product', 'categories'));
