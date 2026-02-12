@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            @role('admin')
                             <div class="bg-cardBg rounded-3xl border border-white/5 p-8 mb-12">
                                 <div class="flex items-center justify-between mb-8">
                                     <h2 class="text-xs font-bold text-white uppercase tracking-[0.2em]">Recent Orders</h2>
@@ -144,7 +144,7 @@
                                     </table>
                                 </div>
                             </div>
-
+                            @endrole
                             @role('admin')
                             <div class="bg-cardBg rounded-3xl border border-white/5 p-8 shadow-2xl">
                                 <div class="flex items-center justify-between mb-8">

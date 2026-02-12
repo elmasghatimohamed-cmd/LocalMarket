@@ -9,9 +9,21 @@ use Illuminate\Support\Facades\Auth;
 use App\Notifications\OrderStatusChanged;
 use Stripe\Stripe;
 use Stripe\Charge;
+use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 
 class CheckoutController extends Controller
 {
+
+    private function checkStockAvailability($cart)
+    {
+        foreach ($cart->items as $item) {
+            if ($item->product->stock < $item->quantity) {
+                return "Désolé, le produit '{$item->product->name}' n'a que {$item->product->stock} unité(s) en stock.";
+            }
+        }
+        return null;
+    }
     public function process()
     {
         $user = Auth::user();
@@ -31,7 +43,6 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validation
         $request->validate([
             'address' => 'required|string|max:255',
             'stripeToken' => 'required'
@@ -44,15 +55,19 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Panier vide.');
         }
 
-        $total = collect($cart->items)->sum(fn($item) => $item->product->price * $item->quantity);
+        // --- ÉTAPE 1 : VÉRIFICATION DU STOCK AVANT PAIEMENT ---
+        $stockError = $this->checkStockAvailability($cart);
+        if ($stockError) {
+            return redirect()->route('cart.index')->with('error', $stockError);
+        }
 
-        // Utilisation de config() pour plus de fiabilité
+        $total = collect($cart->items)->sum(fn($item) => $item->product->price * $item->quantity);
         Stripe::setApiKey(config('services.stripe.secret'));
 
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
 
-            // 2. Exécution du paiement
+            // --- ÉTAPE 2 : PAIEMENT STRIPE ---
             $charge = Charge::create([
                 "amount" => $total * 100,
                 "currency" => "mad",
@@ -60,7 +75,7 @@ class CheckoutController extends Controller
                 "description" => "Commande LocalMart - " . $user->email
             ]);
 
-            // 3. Création de la commande (Vérifie bien ton modèle Order)
+            // --- ÉTAPE 3 : CRÉATION COMMANDE ---
             $order = Order::create([
                 'user_id' => $user->id,
                 'total' => $total,
@@ -70,38 +85,37 @@ class CheckoutController extends Controller
                 'payment_status' => 'completed',
             ]);
 
-            // 4. Items de commande
             foreach ($cart->items as $item) {
                 $order->items()->create([
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
                     'price' => $item->product->price,
                 ]);
+
+                $item->product->decrement('stock', $item->quantity);
             }
 
-            // 5. Suppression du panier
             $cart->items()->delete();
             $cart->delete();
 
-            \DB::commit();
+            DB::commit();
 
-            // Notification Mailtrap
             try {
                 $user->notify(new OrderStatusChanged($order));
             } catch (\Exception $e) {
                 \Log::error("Mail Error: " . $e->getMessage());
             }
 
-            return redirect()->route('orders.index')->with('success', 'Transaction réussie !');
+            return redirect()->route('orders.index')->with('success', 'Transaction réussie ! Stock mis à jour.');
 
         } catch (\Exception $e) {
-            \DB::rollBack();
+            DB::rollBack();
             \Log::error("CHECKOUT ERROR: " . $e->getMessage());
-            return redirect()->route('checkout.process')->with('error', 'Le paiement a échoué : ' . $e->getMessage());
+            return redirect()->route('checkout.process')->with('error', 'Erreur : ' . $e->getMessage());
         }
     }
 
-    public function storeCod()
+    public function storeCod(Request $request)
     {
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->with('items.product')->first();
@@ -110,17 +124,23 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Panier vide.');
         }
 
+        // --- VÉRIFICATION STOCK (COD) ---
+        $stockError = $this->checkStockAvailability($cart);
+        if ($stockError) {
+            return redirect()->route('cart.index')->with('error', $stockError);
+        }
+
         $total = collect($cart->items)->sum(fn($item) => $item->product->price * $item->quantity);
 
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
 
             $order = Order::create([
                 'user_id' => $user->id,
                 'total' => $total,
                 'status' => 'on_hold',
                 'payment_status' => 'pending',
-                'address' => $user->address ?? 'To be provided',
+                'address' => $request->address ?? $user->address ?? 'Non fournie',
                 'payment_id' => 'COD-' . strtoupper(uniqid()),
             ]);
 
@@ -130,17 +150,19 @@ class CheckoutController extends Controller
                     'quantity' => $item->quantity,
                     'price' => $item->product->price,
                 ]);
+
+                // --- DÉCRÉMENTATION STOCK ---
+                $item->product->decrement('stock', $item->quantity);
             }
 
             $cart->items()->delete();
             $cart->delete();
 
-            \DB::commit();
-
-            return redirect()->route('orders.index')->with('success', 'Commande enregistrée (Paiement à la livraison)');
+            DB::commit();
+            return redirect()->route('orders.index')->with('success', 'Commande enregistrée et stock mis à jour.');
 
         } catch (\Exception $e) {
-            \DB::rollBack();
+            DB::rollBack();
             return back()->with('error', 'Erreur : ' . $e->getMessage());
         }
     }

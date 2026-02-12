@@ -19,7 +19,7 @@
 
                         <div class="aspect-square bg-white/5 relative flex items-center justify-center">
                             @if($product->image)
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
                                     class="object-cover w-full h-full opacity-80 group-hover:opacity-100 transition-opacity">
                             @else
                                 {{-- Placeholder si pas d'image --}}
@@ -48,6 +48,19 @@
                                     class="flex-1 px-4 py-2 bg-white/5 border border-white/10 text-white rounded-full hover:bg-white/10 transition text-[10px] font-extrabold uppercase text-center tracking-widest">
                                     DÉTAILS
                                 </a>
+                                <form action="{{ route('products.like', $product) }}" method="POST">
+
+                                    @csrf
+                                    <button type="submit"
+                                        class="p-2 bg-[#DFFF00]/10 border border-[#DFFF00]/20 text-[#DFFF00] rounded-full hover:bg-[#DFFF00] hover:text-black transition">
+                                        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </form>
+
                             </div>
                         </div>
 
