@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with('category');
+        $query = Product::with('category')->where('is_active', 1);
 
         // Filter by price range
         if ($request->has('min_price') && $request->min_price != '') {
@@ -52,7 +52,7 @@ class ProductController extends Controller
     }
 
     public function showHomeProducts(){
-        $products = Product::take(6)->get();
+        $products = Product::where('is_active', 1)->take(6)->get();
         return view('home', compact('products'));
     }
 
